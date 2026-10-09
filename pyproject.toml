@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "videogen-mvp0"
+version = "0.1.0"
+description = "Internal desktop tool for generating burned-in subtitles from video."
+requires-python = ">=3.11"
+dependencies = [
+  "faster-whisper>=1.1,<2",
+  "av>=11,<19",
+  "PySide6-Essentials>=6.8,<7",
+]
+
+[project.scripts]
+videogen = "videogen.presentation.desktop:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+videogen = ["presentation/resources/*"]
