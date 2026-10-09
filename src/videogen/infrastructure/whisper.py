@@ -1,7 +1,7 @@
 import logging
 from pathlib import Path
 
-from videogen.application.ports import DependencyUnavailable, UserFacingError
+from videogen.application.ports import Cancelled, DependencyUnavailable, UserFacingError
 from videogen.domain.models import Word
 
 logger = logging.getLogger(__name__)
@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 class FasterWhisperTranscriber:
     def __init__(self, model_path: Path, cpu_threads: int = 4) -> None:
+        self.progress = None
+        self.check_cancelled = lambda: None
         try:
             from faster_whisper import WhisperModel
 
@@ -46,15 +48,23 @@ class FasterWhisperTranscriber:
                 info.language_probability,
             )
             words: list[Word] = []
+            last_percent = -1
             for segment in segments:
+                self.check_cancelled()
+                percent = min(99, max(0, int(float(segment.end)/max(.01, info.duration)*100)))
+                if self.progress and percent > last_percent:
+                    self.progress("transcription", "Transkripsi", percent, "whisper_segment_end")
+                    last_percent = percent
                 if segment.words:
                     words.extend(
                         Word(word.word, float(word.start), float(word.end))
                         for word in segment.words
                     )
                 else:
-                    words.append(Word(segment.text, float(segment.start), float(segment.end)))
+                    words.append(Word(segment.text, float(segment.start), float(segment.end), has_word_timing=False))
             return words
+        except Cancelled:
+            raise
         except Exception as error:
             logger.exception("Transcription failed for audio file %s", audio)
             raise UserFacingError("Transkripsi gagal. Pastikan audio dapat dibaca dan coba lagi.") from error

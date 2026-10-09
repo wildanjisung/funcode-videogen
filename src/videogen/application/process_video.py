@@ -1,3 +1,4 @@
+import logging
 import os
 import shutil
 import uuid
@@ -14,6 +15,8 @@ from videogen.application.ports import (
     UserFacingError,
 )
 from videogen.domain.models import ProcessResult, build_cues, max_line_characters, validate_words
+
+logger = logging.getLogger(__name__)
 
 
 class ProcessVideo:
@@ -45,7 +48,9 @@ class ProcessVideo:
         if not shutil.which("ffmpeg") or not shutil.which("ffprobe"):
             raise DependencyUnavailable("FFmpeg dan ffprobe perlu terpasang di sistem.")
         if not self._font_path.is_file():
-            raise DependencyUnavailable("Font subtitle aplikasi tidak ditemukan.")
+            raise DependencyUnavailable(
+                "Font Helvetica Neue belum tersedia. Atur VIDEOGEN_FONT_PATH ke file .ttf/.otf Helvetica Neue."
+            )
 
         try:
             output_directory.mkdir(parents=True, exist_ok=True)
@@ -77,13 +82,35 @@ class ProcessVideo:
 
             check_cancelled()
             progress("transcription", "Mentranskripsi audio")
-            words = validate_words(self._transcriber.transcribe(audio), info.duration)
+            # Keep the complete audio transcript. Video clipping happens only after
+            # applying the audio/video offset inside build_cues.
+            words = validate_words(self._transcriber.transcribe(audio))
             if not words:
                 raise EmptyTranscription("Ucapan tidak terdeteksi pada video ini.")
 
-            cues = build_cues(words, info.duration, info.subtitle_offset, 2 * max_line_characters(info))
+            cues = build_cues(words, info.duration, info.subtitle_offset, min(24, max_line_characters(info)))
+            cues = self._subtitles.prepare_cues(info, cues)
             if not cues:
                 raise EmptyTranscription("Transkrip tidak menghasilkan subtitle yang valid.")
+
+            logger.info(
+                "Timestamp accuracy evaluation: job_id=%s status=pending "
+                "target_ms=200 measured_word_onset_error_ms=unmeasured "
+                "reason=independent_spoken_word_annotations_required "
+                "audio_video_offset_seconds=%.6f cue_count=%d",
+                job_id, info.subtitle_offset, len(cues),
+            )
+            # Record timing samples without logging transcript contents.
+            for label, index in (("awal", 0), ("tengah", len(cues) // 2), ("akhir", len(cues) - 1)):
+                cue = cues[index]
+                word = cue.words[0]
+                logger.info(
+                    "Timestamp evaluation sample: job_id=%s sample=%s cue_index=%d "
+                    "cue_start_video_seconds=%.6f cue_end_video_seconds=%.6f "
+                    "first_word_start_video_seconds=%.6f first_word_end_video_seconds=%.6f "
+                    "has_word_timing=%s",
+                    job_id, label, index, cue.start, cue.end, word.start, word.end, word.has_word_timing,
+                )
 
             self._subtitles.write_transcript(transcript, words)
             self._subtitles.write_srt(srt, cues)

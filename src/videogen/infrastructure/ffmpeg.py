@@ -1,16 +1,44 @@
 import json
+import logging
 import os
+import re
 import shutil
 import subprocess
 import threading
 from fractions import Fraction
 from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from videogen.application.ports import Cancelled, UnsupportedMedia, UserFacingError
 from videogen.domain.models import Cue, MediaInfo
 
+logger = logging.getLogger(__name__)
+
 
 class FFmpegMediaProcessor:
+    def __init__(
+        self, font_directory: Path | None = None,
+        font_path: Path | None = None, expected_font: str | None = None,
+    ) -> None:
+        self._font_directory = font_directory or Path(__file__).parents[1] / "presentation" / "resources"
+        self._font_path = font_path
+        self._expected_font = expected_font
+        self.progress = None
+        self._hook_font_path: Path | None = None
+        self._hook_font_name: str | None = None
+
+    def configure_subtitle_font(self, path: Path, postscript_name: str) -> None:
+        self._font_path, self._expected_font = path, postscript_name
+
+    def configure_hook_font(self, path: Path, postscript_name: str) -> None:
+        self._hook_font_path = path
+        self._hook_font_name = postscript_name
+
+    def _copy_fonts(self, folder: Path) -> None:
+        for index, source in enumerate((self._font_path, self._hook_font_path)):
+            if source is not None:
+                shutil.copy2(source, folder / f"{index}{source.suffix}")
+
     @staticmethod
     def check_environment() -> None:
         if not shutil.which("ffmpeg") or not shutil.which("ffprobe"):
@@ -114,10 +142,37 @@ class FFmpegMediaProcessor:
         self._run(command, "Gagal mengekstrak audio.")
 
     def render(self, source: Path, ass: Path, output: Path, info: MediaInfo) -> None:
-        font_directory = Path(__file__).parents[1] / "presentation" / "resources"
+        if self._font_path is not None:
+            # Load only the validated file; other fonts in its source directory
+            # must not change which face libass selects.
+            with TemporaryDirectory(prefix=".fonts-", dir=ass.parent) as folder:
+                self._copy_fonts(Path(folder))
+                self._render(source, ass, output, info, Path(folder))
+        else:
+            self._render(source, ass, output, info, self._font_directory)
+
+    def extract_preview(self, source: Path, ass: Path, timestamp: float, output: Path, info: MediaInfo) -> None:
+        directory = self._font_directory
+        if self._font_path is not None:
+            with TemporaryDirectory(prefix=".fonts-preview-") as folder:
+                self._copy_fonts(Path(folder))
+                self._extract_preview(source, ass, timestamp, output, info, Path(folder))
+        else:
+            self._extract_preview(source, ass, timestamp, output, info, directory)
+
+    def _extract_preview(self, source: Path, ass: Path, timestamp: float, output: Path,
+                         info: MediaInfo, font_directory: Path) -> None:
+        filt = f"ass=filename='{self._filter_path(ass)}':fontsdir='{self._filter_path(font_directory)}',pad=ceil(iw/2)*2:ceil(ih/2)*2:0:0:black"
+        command = ["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "info", "-y",
+                   "-ss", f"{timestamp:.4f}", "-copyts", "-i", str(source), "-map", f"0:{info.video_stream_index}",
+                   "-frames:v", "1", "-vf", filt, "-update", "1", str(output)]
+        stderr = self._run(command, "Gagal membuat preview hook.")
+        self._verify_font_selection(stderr, require_selection=False)
+
+    def _render(self, source: Path, ass: Path, output: Path, info: MediaInfo, font_directory: Path) -> None:
         escaped_ass = self._filter_path(ass)
         command = [
-            "ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-y",
+            "ffmpeg", "-nostdin", "-hide_banner", "-nostats", "-loglevel", "info", "-y",
             "-i", str(source), "-map", f"0:{info.video_stream_index}", "-map", f"0:{info.audio_stream_index}",
             "-vf", f"ass=filename='{escaped_ass}':fontsdir='{self._filter_path(font_directory)}',pad=ceil(iw/2)*2:ceil(ih/2)*2:0:0:black",
             "-fps_mode", "passthrough", "-c:v", "libx264", "-preset", "medium",
@@ -125,13 +180,34 @@ class FFmpegMediaProcessor:
             "-metadata:s:v:0", "rotate=0", "-c:a", "aac", "-b:a", "192k",
             "-movflags", "+faststart", str(output),
         ]
-        self._run(command, "Gagal merender video bersubtitle.")
+        with TemporaryDirectory(prefix=".progress-", dir=ass.parent) as folder:
+            progress_file = Path(folder)/"encoding.txt"
+            command[1:1] = ["-progress", str(progress_file)]
+            stderr = self._run(command, "Gagal merender video bersubtitle.", progress_file, info.duration, self.progress)
+        self._verify_font_selection(stderr)
+
+    def _verify_font_selection(self, stderr: str, require_selection: bool = True) -> None:
+        selections = [line for line in stderr.splitlines() if "fontselect:" in line]
+        for line in selections:
+            logger.info("libass %s", line.strip())
+        if self._expected_font is not None and (selections or require_selection):
+            def normalized(value: str) -> str:
+                return re.sub(r"[^a-z0-9]", "", value.lower())
+            failed = not selections
+            for line in selections:
+                requested = line.split("fontselect:", 1)[-1].split(",", 1)[0].strip().lstrip("(")
+                expected = self._hook_font_name if self._hook_font_name and requested == self._hook_font_name else self._expected_font
+                if "->" not in line or normalized(line.rsplit(",", 1)[-1]) != normalized(expected):
+                    failed = True
+            if failed:
+                raise UserFacingError("Font render berbeda dari font tervalidasi. Periksa log pemilihan font; hasil tidak diterbitkan.")
+
     @staticmethod
     def _filter_path(path: Path) -> str:
         return str(path.resolve()).replace("\\", "\\\\").replace(":", "\\:").replace("'", "\\'").replace(",", "\\,").replace("[", "\\[").replace("]", "\\]")
 
     @staticmethod
-    def _run(command: list[str], message: str) -> None:
+    def _run(command: list[str], message: str, progress_file: Path | None = None, duration: float = 0, progress=None) -> str:
         flags = subprocess.CREATE_NEW_PROCESS_GROUP if os.name == "nt" else 0
         try:
             process = subprocess.Popen(
@@ -146,7 +222,46 @@ class FFmpegMediaProcessor:
         except FileNotFoundError as error:
             raise UserFacingError("FFmpeg tidak ditemukan. Periksa instalasi FFmpeg.") from error
 
+        last_percent = -1
+        position = 0
+        buffer = ""
+        def report():
+            nonlocal last_percent, position, buffer
+            if not progress_file or not progress or duration <= 0:
+                return
+            try:
+                with progress_file.open() as source:
+                    source.seek(position)
+                    buffer += source.read()
+                    position = source.tell()
+            except OSError:
+                return
+            while "\n" in buffer:
+                line, buffer = buffer.split("\n", 1)
+                if line.startswith("out_time_us="):
+                    try:
+                        percent = min(99, max(0, int(float(line.split("=", 1)[1])/1_000_000/duration*100)))
+                    except ValueError:
+                        continue
+                    if percent > last_percent:
+                        last_percent = percent
+                        progress("encoding", "Encoding", percent, "ffmpeg_output_time")
+
+        def report_safe():
+            try:
+                report()
+            except BaseException:
+                if process.poll() is None:
+                    process.terminate()
+                    try:
+                        process.communicate(timeout=3)
+                    except subprocess.TimeoutExpired:
+                        process.kill()
+                        process.communicate()
+                raise
+
         while True:
+            report_safe()
             if _CANCELLED.is_set():
                 process.terminate()
                 try:
@@ -160,10 +275,12 @@ class FFmpegMediaProcessor:
                 break
             except subprocess.TimeoutExpired:
                 continue
+        report_safe()
         if process.returncode:
             detail = (stderr or "").strip().splitlines()
             suffix = f" ({detail[-1][:300]})" if detail else ""
             raise UserFacingError(message + suffix)
+        return stderr or ""
 
 
 _CANCELLED = threading.Event()

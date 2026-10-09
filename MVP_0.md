@@ -2,6 +2,8 @@
 
 Status: Scope implementasi pertama. Dokumen ini menjadi acuan sebelum MVP 1 pada rancangan produk dan arsitektur teknis.
 
+Kelanjutan yang disetujui pengguna adalah [MVP 1 — Subtitle dengan Highlight Kata Aktif](MVP_1.md). Ketentuan subtitle MVP 1 menggantikan gaya dan pembagian cue tahap awal di dokumen ini.
+
 Keputusan di bawah menjadi default implementasi. Detail teknis yang belum tercakup boleh ditetapkan selama coding dengan menjaga scope; perubahan dicatat singkat di dokumen ini. Implementasi belum dijalankan.
 
 ## 1. Tujuan
@@ -204,7 +206,7 @@ Kriteria ini menjadi pemeriksaan saat implementasi tersedia; belum ada kode atau
 2. Tambahkan jendela desktop dan proses worker.
 3. Periksa video pengguna, portrait/landscape, orientasi metadata, timing, serta kegagalan input dan pembatalan.
 
-MVP 1 kemudian menambahkan preset yang bisa diganti, hook/caption, multi rasio, koreksi teks, riwayat, dan checkpoint sesuai kebutuhan pengguna.
+MVP 1 berfokus pada highlight kata aktif dan gaya subtitle sesuai referensi. Preset yang bisa diganti, hook/caption, multi rasio, koreksi teks, riwayat, dan checkpoint menjadi roadmap tahap berikutnya sesuai kebutuhan pengguna.
 
 ## 10. Bahan pengguna dan bukti inspeksi
 

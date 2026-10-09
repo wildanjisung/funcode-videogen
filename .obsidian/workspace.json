@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "README.md",
+                "file": "MVP_2.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "README"
+              "title": "MVP_2"
             }
           }
         ]
@@ -190,20 +190,33 @@
   },
   "active": "f10ed7d949a5643a",
   "lastOpenFiles": [
-    ":memory:.ses",
-    "src/videogen/infrastructure/__pycache__/logging_config.cpython-313.pyc",
-    "src/videogen/infrastructure/logging_config.py",
+    "output/mvp2-drag-feedback-implementation/evaluation.json",
+    "output/mvp2-drag-feedback-implementation",
+    "output/mvp2-drag-fix-implementation/evaluation.json",
+    "output/mvp2-drag-fix-implementation",
+    "output/mvp2-wysiwyg-subtitle-implementation/evaluation.json",
+    "output/mvp2-wysiwyg-subtitle-implementation",
+    "src/videogen/domain/__pycache__/subtitle_style.cpython-313.pyc",
+    "src/videogen/domain/subtitle_style.py",
+    "output/mvp2-visual-editor-implementation/evaluation.json",
+    "output/mvp2-visual-editor-implementation",
+    "output/mvp2-inline-implementation/evaluation.json",
+    "output/mvp2-ui-verification/hook-800x600.png",
+    "output/mvp2-ui-verification/hook-1040x720.png",
+    "output/mvp2-ui-verification/video.png",
+    "MVP_1.md",
+    "MVP_2.md",
+    "README.md",
+    "MVP_1_VERIFICATION.md",
+    "output/mvp1-verification/akhir.png",
+    "output/mvp1-verification/tengah.png",
+    "output/mvp1-verification/awal.png",
+    "output/mvp1-verification/layout/1280x720-active-job.png",
+    "output/mvp1-verification/layout/1280x720-white-gap.png",
+    "output/mvp1-verification/layout/1280x720-segment.png",
+    "output/mvp1-verification/layout/1280x720-long-word.png",
     "MVP_0.md",
     "ARSITEKTUR_TEKNIS.md",
-    "README.md",
-    "src/videogen/application/__pycache__/ports.cpython-313.pyc.139763699100880",
-    "src/videogen/__pycache__/worker_main.cpython-313.pyc",
-    "src/videogen/presentation/__pycache__/desktop.cpython-313.pyc",
-    "src/videogen/presentation/__pycache__/__init__.cpython-313.pyc",
-    "src/videogen/presentation/__pycache__",
-    "src/videogen/infrastructure/__pycache__/whisper.cpython-313.pyc",
-    "src/videogen/infrastructure/__pycache__/subtitles.cpython-313.pyc",
-    "src/videogen/infrastructure/__pycache__/ffmpeg.cpython-313.pyc",
     "RANCANGAN_VIDEO_EDITOR.md"
   ]
 }
