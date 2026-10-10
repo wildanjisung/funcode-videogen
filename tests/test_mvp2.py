@@ -25,6 +25,9 @@ def portrait() -> MediaInfo:
 
 
 class FakeMedia:
+    def configure_subtitle_font(self, path, postscript_name):
+        pass
+
     def probe(self, _source: Path) -> MediaInfo:
         return portrait()
 
@@ -76,7 +79,7 @@ class MVP2Tests(unittest.TestCase):
             layout = append_hook_ass(ass, info, HookSpec("ONE {JOB}"), self.font)
             content = ass.read_text(encoding="utf-8-sig")
         self.assertIsNotNone(layout)
-        self.assertIn("Style: Hook,Helvetica Neue", content)
+        self.assertIn(f"Style: Hook,{self.font.postscript_name}", content)
         self.assertIn("\\p1", content)
         self.assertIn("ONE \\{JOB\\}", content)
         self.assertLess(content.index("Style: Hook"), content.index("[Events]"))

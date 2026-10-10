@@ -1,0 +1,175 @@
+﻿[Script Info]
+ScriptType: v4.00+
+PlayResX: 720
+PlayResY: 1280
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,HelveticaNeue-Bold,58,&H00FFFFFF,&H0000FFFF,&H00101010,&H80000000,-1,0,0,0,100,100,0,0,1,1.45,0,2,58,58,333,1
+Style: Hook,HelveticaNeue-Bold,38,&H00000000,&H00000000,&H00000000,&H00FFFFFF,-1,0,0,0,100,100,0,0,1,0,0,8,0,0,0,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:03.79,0:00:04.31,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}He{\1c&HFFFFFF&} rushed one
+Dialogue: 0,0:00:04.31,0:00:04.63,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}He {\1c&H00FFFF&}rushed{\1c&HFFFFFF&} one
+Dialogue: 0,0:00:04.63,0:00:04.99,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}He rushed {\1c&H00FFFF&}one{\1c&HFFFFFF&}
+Dialogue: 0,0:00:04.99,0:00:05.33,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}tender{\1c&HFFFFFF&} all by
+Dialogue: 0,0:00:05.33,0:00:05.93,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}tender {\1c&H00FFFF&}all{\1c&HFFFFFF&} by
+Dialogue: 0,0:00:05.93,0:00:06.13,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}tender all {\1c&H00FFFF&}by{\1c&HFFFFFF&}
+Dialogue: 0,0:00:06.13,0:00:06.41,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}himself{\1c&HFFFFFF&} and he
+Dialogue: 0,0:00:06.41,0:00:06.81,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}himself {\1c&H00FFFF&}and{\1c&HFFFFFF&} he
+Dialogue: 0,0:00:06.81,0:00:06.91,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}himself and {\1c&H00FFFF&}he{\1c&HFFFFFF&}
+Dialogue: 0,0:00:06.91,0:00:07.17,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}spent{\1c&HFFFFFF&} the whole
+Dialogue: 0,0:00:07.17,0:00:07.37,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}spent {\1c&H00FFFF&}the{\1c&HFFFFFF&} whole
+Dialogue: 0,0:00:07.37,0:00:07.69,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}spent the {\1c&H00FFFF&}whole{\1c&HFFFFFF&}
+Dialogue: 0,0:00:07.69,0:00:07.93,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}job{\1c&HFFFFFF&} afterwards
+Dialogue: 0,0:00:07.93,0:00:08.41,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}job {\1c&H00FFFF&}afterwards{\1c&HFFFFFF&}
+Dialogue: 0,0:00:08.41,0:00:09.13,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}paying{\1c&HFFFFFF&} for it in
+Dialogue: 0,0:00:09.13,0:00:09.41,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}paying {\1c&H00FFFF&}for{\1c&HFFFFFF&} it in
+Dialogue: 0,0:00:09.41,0:00:09.63,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}paying for {\1c&H00FFFF&}it{\1c&HFFFFFF&} in
+Dialogue: 0,0:00:09.63,0:00:10.25,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}paying for it {\1c&H00FFFF&}in{\1c&HFFFFFF&}
+Dialogue: 0,0:00:10.25,0:00:10.57,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}-house{\1c&HFFFFFF&} He rushed
+Dialogue: 0,0:00:10.57,0:00:10.85,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}-house {\1c&H00FFFF&}He{\1c&HFFFFFF&} rushed
+Dialogue: 0,0:00:10.85,0:00:11.21,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}-house He {\1c&H00FFFF&}rushed{\1c&HFFFFFF&}
+Dialogue: 0,0:00:11.21,0:00:11.47,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}this{\1c&HFFFFFF&} project
+Dialogue: 0,0:00:11.47,0:00:11.95,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}this {\1c&H00FFFF&}project{\1c&HFFFFFF&}
+Dialogue: 0,0:00:11.95,0:00:12.73,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}deadlines.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:13.01,0:00:13.39,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}They{\1c&HFFFFFF&} didn't wait
+Dialogue: 0,0:00:13.39,0:00:13.67,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}They {\1c&H00FFFF&}didn't{\1c&HFFFFFF&} wait
+Dialogue: 0,0:00:13.67,0:00:13.93,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}They didn't {\1c&H00FFFF&}wait{\1c&HFFFFFF&}
+Dialogue: 0,0:00:13.93,0:00:14.45,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}He{\1c&HFFFFFF&} rushed the
+Dialogue: 0,0:00:14.45,0:00:14.73,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}He {\1c&H00FFFF&}rushed{\1c&HFFFFFF&} the
+Dialogue: 0,0:00:14.73,0:00:14.93,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}He rushed {\1c&H00FFFF&}the{\1c&HFFFFFF&}
+Dialogue: 0,0:00:14.93,0:00:15.37,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}estimate{\1c&HFFFFFF&} to make
+Dialogue: 0,0:00:15.37,0:00:15.57,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}estimate {\1c&H00FFFF&}to{\1c&HFFFFFF&} make
+Dialogue: 0,0:00:15.57,0:00:15.77,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}estimate to {\1c&H00FFFF&}make{\1c&HFFFFFF&}
+Dialogue: 0,0:00:15.77,0:00:16.03,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}sure{\1c&HFFFFFF&} that he can
+Dialogue: 0,0:00:16.03,0:00:16.21,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}sure {\1c&H00FFFF&}that{\1c&HFFFFFF&} he can
+Dialogue: 0,0:00:16.21,0:00:16.29,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}sure that {\1c&H00FFFF&}he{\1c&HFFFFFF&} can
+Dialogue: 0,0:00:16.29,0:00:16.41,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}sure that he {\1c&H00FFFF&}can{\1c&HFFFFFF&}
+Dialogue: 0,0:00:16.41,0:00:16.85,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}appease{\1c&HFFFFFF&} the
+Dialogue: 0,0:00:16.85,0:00:16.99,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}appease {\1c&H00FFFF&}the{\1c&HFFFFFF&}
+Dialogue: 0,0:00:16.99,0:00:17.27,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}builder{\1c&HFFFFFF&} You see a
+Dialogue: 0,0:00:17.27,0:00:17.93,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}builder {\1c&H00FFFF&}You{\1c&HFFFFFF&} see a
+Dialogue: 0,0:00:17.93,0:00:18.09,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}builder You {\1c&H00FFFF&}see{\1c&HFFFFFF&} a
+Dialogue: 0,0:00:18.09,0:00:18.21,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}builder You see {\1c&H00FFFF&}a{\1c&HFFFFFF&}
+Dialogue: 0,0:00:18.21,0:00:18.49,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}quantity{\1c&HFFFFFF&} here and
+Dialogue: 0,0:00:18.49,0:00:18.91,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}quantity {\1c&H00FFFF&}here{\1c&HFFFFFF&} and
+Dialogue: 0,0:00:18.91,0:00:19.05,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}quantity here {\1c&H00FFFF&}and{\1c&HFFFFFF&}
+Dialogue: 0,0:00:19.05,0:00:19.15,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}a{\1c&HFFFFFF&} laborer out
+Dialogue: 0,0:00:19.15,0:00:19.51,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}a {\1c&H00FFFF&}laborer{\1c&HFFFFFF&} out
+Dialogue: 0,0:00:19.51,0:00:19.61,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}a laborer {\1c&H00FFFF&}out{\1c&HFFFFFF&}
+Dialogue: 0,0:00:19.61,0:00:19.75,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}there{\1c&HFFFFFF&} small gaps,
+Dialogue: 0,0:00:19.75,0:00:20.05,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}there {\1c&H00FFFF&}small{\1c&HFFFFFF&} gaps,
+Dialogue: 0,0:00:20.05,0:00:20.39,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}there small {\1c&H00FFFF&}gaps,{\1c&HFFFFFF&}
+Dialogue: 0,0:00:20.41,0:00:20.53,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}but{\1c&HFFFFFF&} they do add
+Dialogue: 0,0:00:20.53,0:00:20.67,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}but {\1c&H00FFFF&}they{\1c&HFFFFFF&} do add
+Dialogue: 0,0:00:20.67,0:00:20.93,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}but they {\1c&H00FFFF&}do{\1c&HFFFFFF&} add
+Dialogue: 0,0:00:20.93,0:00:21.37,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}but they do {\1c&H00FFFF&}add{\1c&HFFFFFF&}
+Dialogue: 0,0:00:21.37,0:00:21.69,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}up{\1c&HFFFFFF&} Now his team
+Dialogue: 0,0:00:21.69,0:00:22.53,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}up {\1c&H00FFFF&}Now{\1c&HFFFFFF&} his team
+Dialogue: 0,0:00:22.53,0:00:22.75,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}up Now {\1c&H00FFFF&}his{\1c&HFFFFFF&} team
+Dialogue: 0,0:00:22.75,0:00:23.01,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}up Now his {\1c&H00FFFF&}team{\1c&HFFFFFF&}
+Dialogue: 0,0:00:23.01,0:00:23.19,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}on{\1c&HFFFFFF&} site is
+Dialogue: 0,0:00:23.19,0:00:23.49,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}on {\1c&H00FFFF&}site{\1c&HFFFFFF&} is
+Dialogue: 0,0:00:23.49,0:00:24.17,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}on site {\1c&H00FFFF&}is{\1c&HFFFFFF&}
+Dialogue: 0,0:00:24.17,0:00:24.49,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}spending{\1c&HFFFFFF&} the whole
+Dialogue: 0,0:00:24.49,0:00:24.71,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}spending {\1c&H00FFFF&}the{\1c&HFFFFFF&} whole
+Dialogue: 0,0:00:24.71,0:00:24.97,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}spending the {\1c&H00FFFF&}whole{\1c&HFFFFFF&}
+Dialogue: 0,0:00:24.97,0:00:25.21,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}job{\1c&HFFFFFF&} hunting for
+Dialogue: 0,0:00:25.21,0:00:25.53,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}job {\1c&H00FFFF&}hunting{\1c&HFFFFFF&} for
+Dialogue: 0,0:00:25.53,0:00:25.77,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}job hunting {\1c&H00FFFF&}for{\1c&HFFFFFF&}
+Dialogue: 0,0:00:25.77,0:00:26.31,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}variations{\1c&HFFFFFF&} and
+Dialogue: 0,0:00:26.31,0:00:26.73,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}variations {\1c&H00FFFF&}and{\1c&HFFFFFF&}
+Dialogue: 0,0:00:26.73,0:00:27.05,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}extras{\1c&HFFFFFF&} just so
+Dialogue: 0,0:00:27.05,0:00:27.43,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}extras {\1c&H00FFFF&}just{\1c&HFFFFFF&} so
+Dialogue: 0,0:00:27.43,0:00:27.67,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}extras just {\1c&H00FFFF&}so{\1c&HFFFFFF&}
+Dialogue: 0,0:00:27.67,0:00:27.81,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}they{\1c&HFFFFFF&} can cover
+Dialogue: 0,0:00:27.81,0:00:27.91,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}they {\1c&H00FFFF&}can{\1c&HFFFFFF&} cover
+Dialogue: 0,0:00:27.91,0:00:28.19,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}they can {\1c&H00FFFF&}cover{\1c&HFFFFFF&}
+Dialogue: 0,0:00:28.19,0:00:28.45,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}what{\1c&HFFFFFF&} he missed at
+Dialogue: 0,0:00:28.45,0:00:28.73,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}what {\1c&H00FFFF&}he{\1c&HFFFFFF&} missed at
+Dialogue: 0,0:00:28.73,0:00:29.17,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}what he {\1c&H00FFFF&}missed{\1c&HFFFFFF&} at
+Dialogue: 0,0:00:29.17,0:00:29.73,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}what he missed {\1c&H00FFFF&}at{\1c&HFFFFFF&}
+Dialogue: 0,0:00:29.73,0:00:29.83,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}the{\1c&HFFFFFF&} pricing stage
+Dialogue: 0,0:00:29.83,0:00:30.13,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}the {\1c&H00FFFF&}pricing{\1c&HFFFFFF&} stage
+Dialogue: 0,0:00:30.13,0:00:30.47,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}the pricing {\1c&H00FFFF&}stage{\1c&HFFFFFF&}
+Dialogue: 0,0:00:30.47,0:00:31.35,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}You{\1c&HFFFFFF&} see a rushed
+Dialogue: 0,0:00:31.35,0:00:31.89,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}You {\1c&H00FFFF&}see{\1c&HFFFFFF&} a rushed
+Dialogue: 0,0:00:31.89,0:00:32.03,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}You see {\1c&H00FFFF&}a{\1c&HFFFFFF&} rushed
+Dialogue: 0,0:00:32.03,0:00:32.19,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}You see a {\1c&H00FFFF&}rushed{\1c&HFFFFFF&}
+Dialogue: 0,0:00:32.19,0:00:32.51,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}estimate{\1c&HFFFFFF&} doesn't
+Dialogue: 0,0:00:32.51,0:00:32.87,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}estimate {\1c&H00FFFF&}doesn't{\1c&HFFFFFF&}
+Dialogue: 0,0:00:32.87,0:00:32.99,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}just{\1c&HFFFFFF&} risk the
+Dialogue: 0,0:00:32.99,0:00:33.33,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}just {\1c&H00FFFF&}risk{\1c&HFFFFFF&} the
+Dialogue: 0,0:00:33.33,0:00:33.51,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}just risk {\1c&H00FFFF&}the{\1c&HFFFFFF&}
+Dialogue: 0,0:00:33.51,0:00:33.65,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}whole{\1c&HFFFFFF&} tender but
+Dialogue: 0,0:00:33.65,0:00:33.91,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}whole {\1c&H00FFFF&}tender{\1c&HFFFFFF&} but
+Dialogue: 0,0:00:33.91,0:00:34.13,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}whole tender {\1c&H00FFFF&}but{\1c&HFFFFFF&}
+Dialogue: 0,0:00:34.13,0:00:34.25,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}it{\1c&HFFFFFF&} risks the
+Dialogue: 0,0:00:34.25,0:00:34.51,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}it {\1c&H00FFFF&}risks{\1c&HFFFFFF&} the
+Dialogue: 0,0:00:34.51,0:00:34.69,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}it risks {\1c&H00FFFF&}the{\1c&HFFFFFF&}
+Dialogue: 0,0:00:34.69,0:00:35.03,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}profitability{\1c&HFFFFFF&} of
+Dialogue: 0,0:00:35.03,0:00:35.63,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}profitability {\1c&H00FFFF&}of{\1c&HFFFFFF&}
+Dialogue: 0,0:00:35.63,0:00:35.77,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}your{\1c&HFFFFFF&} whole
+Dialogue: 0,0:00:35.77,0:00:35.99,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}your {\1c&H00FFFF&}whole{\1c&HFFFFFF&}
+Dialogue: 0,0:00:35.99,0:00:36.39,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}business.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:36.83,0:00:37.15,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}In{\1c&HFFFFFF&} the words of
+Dialogue: 0,0:00:37.15,0:00:37.25,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}In {\1c&H00FFFF&}the{\1c&HFFFFFF&} words of
+Dialogue: 0,0:00:37.25,0:00:37.45,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}In the {\1c&H00FFFF&}words{\1c&HFFFFFF&} of
+Dialogue: 0,0:00:37.45,0:00:37.61,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}In the words {\1c&H00FFFF&}of{\1c&HFFFFFF&}
+Dialogue: 0,0:00:37.61,0:00:37.73,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}my{\1c&HFFFFFF&} client he is
+Dialogue: 0,0:00:37.73,0:00:38.13,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}my {\1c&H00FFFF&}client{\1c&HFFFFFF&} he is
+Dialogue: 0,0:00:38.13,0:00:38.67,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}my client {\1c&H00FFFF&}he{\1c&HFFFFFF&} is
+Dialogue: 0,0:00:38.67,0:00:38.85,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}my client he {\1c&H00FFFF&}is{\1c&HFFFFFF&}
+Dialogue: 0,0:00:38.85,0:00:39.11,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}so{\1c&HFFFFFF&} much more
+Dialogue: 0,0:00:39.11,0:00:39.31,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}so {\1c&H00FFFF&}much{\1c&HFFFFFF&} more
+Dialogue: 0,0:00:39.31,0:00:39.45,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}so much {\1c&H00FFFF&}more{\1c&HFFFFFF&}
+Dialogue: 0,0:00:39.45,0:00:39.79,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}comfortable{\1c&HFFFFFF&} now
+Dialogue: 0,0:00:39.79,0:00:40.11,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}comfortable {\1c&H00FFFF&}now{\1c&HFFFFFF&}
+Dialogue: 0,0:00:40.11,0:00:40.69,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}because{\1c&HFFFFFF&} he knows
+Dialogue: 0,0:00:40.69,0:00:40.89,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}because {\1c&H00FFFF&}he{\1c&HFFFFFF&} knows
+Dialogue: 0,0:00:40.89,0:00:41.25,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}because he {\1c&H00FFFF&}knows{\1c&HFFFFFF&}
+Dialogue: 0,0:00:41.25,0:00:41.47,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}that{\1c&HFFFFFF&} someone, us,
+Dialogue: 0,0:00:41.47,0:00:41.89,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}that {\1c&H00FFFF&}someone,{\1c&HFFFFFF&} us,
+Dialogue: 0,0:00:41.89,0:00:42.51,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}that someone, us,
+Dialogue: 0,0:00:42.51,0:00:42.89,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}that someone, {\1c&H00FFFF&}us,{\1c&HFFFFFF&}
+Dialogue: 0,0:00:43.39,0:00:43.53,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}are{\1c&HFFFFFF&} looking over
+Dialogue: 0,0:00:43.53,0:00:43.77,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}are {\1c&H00FFFF&}looking{\1c&HFFFFFF&} over
+Dialogue: 0,0:00:43.77,0:00:44.15,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}are looking {\1c&H00FFFF&}over{\1c&HFFFFFF&}
+Dialogue: 0,0:00:44.15,0:00:44.81,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}and{\1c&HFFFFFF&} doing his
+Dialogue: 0,0:00:44.81,0:00:45.03,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}and {\1c&H00FFFF&}doing{\1c&HFFFFFF&} his
+Dialogue: 0,0:00:45.03,0:00:45.27,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}and doing {\1c&H00FFFF&}his{\1c&HFFFFFF&}
+Dialogue: 0,0:00:45.27,0:00:45.87,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}pricing{\1c&HFFFFFF&} correctly.
+Dialogue: 0,0:00:45.87,0:00:46.45,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}pricing {\1c&H00FFFF&}correctly.{\1c&HFFFFFF&}
+Dialogue: 0,0:00:47.35,0:00:47.49,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}A{\1c&HFFFFFF&} rushed number
+Dialogue: 0,0:00:47.49,0:00:47.79,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}A {\1c&H00FFFF&}rushed{\1c&HFFFFFF&} number
+Dialogue: 0,0:00:47.79,0:00:48.17,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}A rushed {\1c&H00FFFF&}number{\1c&HFFFFFF&}
+Dialogue: 0,0:00:48.17,0:00:48.47,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}here{\1c&HFFFFFF&} will impact
+Dialogue: 0,0:00:48.47,0:00:49.07,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}here {\1c&H00FFFF&}will{\1c&HFFFFFF&} impact
+Dialogue: 0,0:00:49.07,0:00:49.57,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}here will {\1c&H00FFFF&}impact{\1c&HFFFFFF&}
+Dialogue: 0,0:00:49.57,0:00:49.79,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}the{\1c&HFFFFFF&} profitability
+Dialogue: 0,0:00:49.79,0:00:50.17,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}the {\1c&H00FFFF&}profitability{\1c&HFFFFFF&}
+Dialogue: 0,0:00:50.17,0:00:50.67,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}of{\1c&HFFFFFF&} your business
+Dialogue: 0,0:00:50.67,0:00:50.77,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}of {\1c&H00FFFF&}your{\1c&HFFFFFF&} business
+Dialogue: 0,0:00:50.77,0:00:51.09,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}of your {\1c&H00FFFF&}business{\1c&HFFFFFF&}
+Dialogue: 0,0:00:51.09,0:00:51.49,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}later{\1c&HFFFFFF&} so make sure
+Dialogue: 0,0:00:51.49,0:00:52.07,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}later {\1c&H00FFFF&}so{\1c&HFFFFFF&} make sure
+Dialogue: 0,0:00:52.07,0:00:52.29,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}later so {\1c&H00FFFF&}make{\1c&HFFFFFF&} sure
+Dialogue: 0,0:00:52.29,0:00:52.47,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}later so make {\1c&H00FFFF&}sure{\1c&HFFFFFF&}
+Dialogue: 0,0:00:52.47,0:00:52.57,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}you{\1c&HFFFFFF&} get it right
+Dialogue: 0,0:00:52.57,0:00:52.67,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}you {\1c&H00FFFF&}get{\1c&HFFFFFF&} it right
+Dialogue: 0,0:00:52.67,0:00:52.77,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}you get {\1c&H00FFFF&}it{\1c&HFFFFFF&} right
+Dialogue: 0,0:00:52.77,0:00:53.09,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}you get it {\1c&H00FFFF&}right{\1c&HFFFFFF&}
+Dialogue: 0,0:00:53.09,0:00:53.79,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}from{\1c&HFFFFFF&} the very
+Dialogue: 0,0:00:53.79,0:00:53.89,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}from {\1c&H00FFFF&}the{\1c&HFFFFFF&} very
+Dialogue: 0,0:00:53.89,0:00:54.11,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}from the {\1c&H00FFFF&}very{\1c&HFFFFFF&}
+Dialogue: 0,0:00:54.11,0:00:54.45,Default,,0,0,0,,{\an5\pos(360,947.2)}{\fs58\bord1.45}{\1c&H00FFFF&}start.{\1c&HFFFFFF&}
+Dialogue: 1,0:00:00.00,0:00:05.00,Hook,,0,0,0,,{\an7\pos(0,0)\p1\bord0\shad0\1c&HFFFFFF&}m 276 192 l 444 192 b 448 192 452 196 452 200 l 452 239 b 452 243 448 247 444 247 l 276 247 b 272 247 268 243 268 239 l 268 200 b 268 196 272 192 276 192 c{\p0}
+Dialogue: 2,0:00:00.00,0:00:05.00,Hook,,0,0,0,,{\an5\pos(360,219.642)\fs38\bord0\shad0\1c&H000000&}ONE JOB
+Dialogue: 1,0:00:00.00,0:00:05.00,Hook,,0,0,0,,{\an7\pos(0,0)\p1\bord0\shad0\1c&HFFFFFF&}m 267 251 l 453 251 b 457 251 461 255 461 259 l 461 298 b 461 302 457 306 453 306 l 267 306 b 263 306 259 302 259 298 l 259 259 b 259 255 263 251 267 251 c{\p0}
+Dialogue: 2,0:00:00.00,0:00:05.00,Hook,,0,0,0,,{\an5\pos(360,278.727)\fs38\bord0\shad0\1c&H000000&}CHANGES
+Dialogue: 1,0:00:00.00,0:00:05.00,Hook,,0,0,0,,{\an7\pos(0,0)\p1\bord0\shad0\1c&HFFFFFF&}m 239 310 l 481 310 b 485 310 489 314 489 318 l 489 357 b 489 361 485 365 481 365 l 239 365 b 235 365 231 361 231 357 l 231 318 b 231 314 235 310 239 310 c{\p0}
+Dialogue: 2,0:00:00.00,0:00:05.00,Hook,,0,0,0,,{\an5\pos(360,337.811)\fs38\bord0\shad0\1c&H000000&}EVERYTHING

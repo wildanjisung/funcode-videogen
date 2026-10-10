@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "run_id": "manual-probe-2026-10-09-libopenshot-qt6",
+  "checks": [
+    {"check_id":"engine_binding_compatibility","status":"passed","method":"PySide6/Qt ABI aligned to 6.8.2; libopenshot adapter instantiated and opened source timeline","limits":"Does not prove visible GUI playback."},
+    {"check_id":"source_open","status":"passed","method":"Opened assets/video/IMG_1703.MOV through FFmpegReader and Timeline","measured":{"width":720,"height":1280,"fps":30.0,"duration_seconds":50.36666488647461}},
+    {"check_id":"playback_frame_delivery","status":"passed","method":"MainWindow Hook page on Qt offscreen; 2.2 second playback","measured":{"preview_pixmap_size":[720,1280]},"limitation":"Not a visible desktop session; cadence still pending."},
+    {"check_id":"seek_accuracy","status":"passed_basic","method":"Move preview slider during playback and read QtPlayer position","measured":{"requested_seconds":2.0,"observed_seconds":2.0},"limitation":"Single VFR-unknown source and one seek; comprehensive tolerance not set."},
+    {"check_id":"pause","status":"passed_basic","method":"Pause and sample playhead again after 500ms","measured":{"mode":"PLAYBACK_PAUSED","position_at_pause_seconds":3.6,"position_after_wait_seconds":3.6}},
+    {"check_id":"audio_device_initialization","status":"passed_user_confirmed","method":"QtPlayer initialized audio while playing; user confirmed audible sound in the desktop session","measured":{"sample_rate":44100.0,"engine_error":"","audible_output":"user_confirmed"},"limitation":"No synchronized audio-video drift measurement yet."},
+    {"check_id":"playback_clock_rate","status":"pending","method":"1.5 seconds after 2.0 second seek","measured":{"playhead_delta_seconds":1.6},"limitation":"Tolerance not set; repeat over longer interval on visible desktop."},
+    {"check_id":"desktop_gui_launch","status":"blocked","method":".venv/bin/videogen; then DISPLAY=:1 retry","measured":{"error":"could not connect to display; libxcb-cursor0 missing"},"limitation":"Desktop session is not exposed to this execution environment."}
+  ],
+  "overall_status": "partial_pass_gui_blocked",
+  "tolerances": "Not set; no pass/fail judgment on synchronization or latency."
+}

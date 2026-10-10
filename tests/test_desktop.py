@@ -76,8 +76,8 @@ class DesktopFlowTests(unittest.TestCase):
         self.assertGreater(w._preview_request, request_id)
         self.assertFalse(w.render_button.isEnabled())
         self.assertIn("memperbarui", w.render_reason.text())
-        w.preview_slider.setValue(500)
-        self.assertEqual(w.time_label.text(), "00:25 / 00:50")
+        w.preview_slider.setValue(25000)
+        self.assertEqual(w.time_label.text(), "00:25.00 / 00:50.00")
 
     def test_editor_preview_render_fit_without_page_scroll(self):
         self.ready_project()

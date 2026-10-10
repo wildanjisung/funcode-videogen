@@ -10,7 +10,8 @@ requires-python = ">=3.11"
 dependencies = [
   "faster-whisper>=1.1,<2",
   "av>=11,<19",
-  "PySide6-Essentials>=6.8,<7",
+  "PySide6-Essentials==6.8.2",
+  "numpy>=1.26,<3",
 ]
 
 [project.scripts]

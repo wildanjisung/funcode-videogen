@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "records": [
+    {
+      "check_id": "whisper_word_onset_200ms",
+      "status": "pending",
+      "limitation": "Belum dibandingkan onset ucapan berlabel"
+    },
+    {
+      "check_id": "visible_desktop_usability",
+      "status": "pending",
+      "limitation": "Perlu evaluasi pengguna"
+    },
+    {
+      "check_id": "physical_audio_video_sync",
+      "status": "pending",
+      "limitation": "Perlu rekaman suara dan gambar tersinkron"
+    },
+    {
+      "check_id": "long_video_hdr_rotation",
+      "status": "pending",
+      "limitation": "Perlu sumber representatif"
+    },
+    {
+      "check_id": "clean_host_native_rebuild",
+      "status": "pending",
+      "limitation": "Belum dilakukan"
+    },
+    {
+      "check_id": "complete_cancel_crash_recovery",
+      "status": "pending",
+      "limitation": "Matriks belum lengkap"
+    }
+  ]
+}

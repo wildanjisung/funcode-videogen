@@ -37,6 +37,7 @@ class HookStyleEditor(QWidget):
         self.history = []
         self.history_index = 0
         self.gesture_before = None
+        self.press_state = None
         self.gesture_origin = None
         self.typing_before = None
         self.gesture_state = None
@@ -222,6 +223,8 @@ class HookStyleEditor(QWidget):
         cancel.clicked.connect(lambda: owner._end_style_session('batal'))
         self.slider.valueChanged.connect(self.changed)
         self.preview.gestureStarted.connect(self.gesture_started)
+        self.preview.interactionPressed.connect(self.interaction_pressed)
+        self.preview.interactionReleased.connect(self.interaction_released)
         self.preview.gestureChanged.connect(self.gesture_changed)
         self.preview.gestureFinished.connect(self.gesture_finished)
         self.preview.textStarted.connect(self.text_started)
@@ -268,6 +271,7 @@ class HookStyleEditor(QWidget):
 
     def center_object(self):
         self.preview.finish_text(False)
+        self.preview.cancel_gesture("center_object")
         self.controls['center_fraction'].blockSignals(True)
         self.controls['top_fraction'].blockSignals(True)
         self.controls['center_fraction'].setValue(50)
@@ -281,18 +285,30 @@ class HookStyleEditor(QWidget):
         if self.target == "hook":
             self.slider.setValue(0)
             return
-        timestamp = self.preview_limit*self.slider.value()/1000
+        timestamp = min(self.preview_limit, self.slider.value()/1000)
         next_time = next((t for t in self.cue_starts if t > timestamp+.02), self.cue_starts[0] if self.cue_starts else None)
         if next_time is not None:
-            self.slider.setValue(min(1000, round((next_time+.01)/max(.01,self.preview_limit)*1000)))
+            self.slider.setValue(min(self.slider.maximum(), round((next_time+.01)*1000)))
 
     def goto_invalid_cue(self):
         if self.error_timestamp is not None:
-            self.slider.setValue(min(1000, round(self.error_timestamp/max(.01,self.preview_limit)*1000)))
+            self.slider.setValue(min(self.slider.maximum(), round(self.error_timestamp*1000)))
 
-    def preview_failed(self, timestamp):
+    def preview_failed(self, timestamp, message=None):
         self.error_timestamp = timestamp
         self.invalid_cue_button.setVisible(timestamp is not None)
+        if message is not None:
+            self.valid = False
+            self.apply.setEnabled(False)
+            self.preview._validated = False
+            self.preview.update()
+            reason = 'Layout tidak muat' if 'tidak muat' in message.lower() else 'Preview gagal'
+            self.status.setText(f'{reason}: {message}\nGambar terakhir dipertahankan; lanjutkan geser, ubah ukuran/teks, atau pusatkan objek.')
+            self.owner.mvp3_log.record("editor_preview_recovery", status="failed",
+                session_id=self.session_id, target=self.target, error_message=message,
+                top_fraction=self.preview._top, center_fraction=self.preview._center,
+                width_fraction=self.preview._width, size_fraction=self.preview._size,
+                frame_height_fraction=self.preview._block_fraction)
 
     def choose_subtitle_color(self, key):
         color = QColorDialog.getColor(QColor(getattr(self, key)), self, 'Warna subtitle')
@@ -494,7 +510,7 @@ class HookStyleEditor(QWidget):
         self.apply.setEnabled(False)
         self.refresh_history_buttons()
         self.status.setText('Sedang menggeser · lepas untuk memperbarui preview' if self.gesture_before is not None else 'Sedang mengetik · preview belum tervalidasi' if self.preview._text_active else 'Preview memperbarui…')
-        self.time.setText(f"{self.preview_limit*self.slider.value()/1000:.2f} / {self.interval:.2f} detik")
+        self.time.setText(f"{min(self.preview_limit, self.slider.value()/1000):.2f} / {self.interval:.2f} detik")
         if self.gesture_before is None:
             self.timer.start(300)
         else:
@@ -555,7 +571,37 @@ class HookStyleEditor(QWidget):
         self.refresh_history_buttons()
         self.log('text_cancel' if cancelled else 'text_commit')
 
+    def interaction_pressed(self) -> None:
+        self.press_state = (self.status.text(), self.valid, self.apply.isEnabled(),
+                            self.preview._validated, self.timer.isActive() or self.owner._preview_process is not None)
+        self.timer.stop()
+        self.owner._preview_request += 1
+        self.owner._set_preview_progress(False)
+        self.valid = False
+        self.apply.setEnabled(False)
+        self.status.setText('Objek dipilih · geser lalu lepas untuk memperbarui preview')
+        self.owner.mvp3_log.record('editor_pointer_pressed', status='running',
+                                  session_id=self.session_id, target=self.target)
+
+    def interaction_released(self) -> None:
+        previous, self.press_state = self.press_state, None
+        if previous:
+            status, valid, enabled, validated, pending = previous
+            self.valid = valid
+            self.apply.setEnabled(enabled)
+            self.preview._validated = validated
+            self.status.setText(status)
+            if pending:
+                self.valid = False
+                self.apply.setEnabled(False)
+                self.status.setText('Preview memperbarui…')
+                self.owner._set_preview_progress(True)
+                self.timer.start(0)
+        self.owner.mvp3_log.record('editor_pointer_released_without_drag', status='completed',
+                                  session_id=self.session_id, target=self.target)
+
     def gesture_started(self) -> None:
+        self.press_state = None
         self.gesture_before = self.state()
         self.gesture_origin = {key: self.gesture_before['styles'][self.target][key]
                                for key in ('top_fraction', 'center_fraction', 'width_fraction', 'size_fraction')}
@@ -566,6 +612,10 @@ class HookStyleEditor(QWidget):
         self.owner._preview_request += 1
         self.valid = False
         self.apply.setEnabled(False)
+        self.owner.mvp3_log.record("edit_gesture_started", status="running", session_id=self.session_id,
+                                  project_id=self.owner.project_dir.name if self.owner.project_dir else None,
+                                  target=self.target, gesture_mode=self.preview.gesture_mode,
+                                  time_seconds=min(self.preview_limit, self.slider.value()/1000))
         self.log('gesture_start')
 
     def gesture_changed(self, top: float, center: float, width: float, size: float) -> None:
@@ -590,6 +640,13 @@ class HookStyleEditor(QWidget):
         else:
             self.changed(record=False)
             self.push_history()
+        self.owner.mvp3_log.record("edit_gesture_finished", status="cancelled" if cancelled else "committed",
+                                  session_id=self.session_id, target=self.target,
+                                  gesture_mode=self.preview.gesture_mode,
+                                  top_fraction=self.controls['top_fraction'].value()/100,
+                                  center_fraction=self.controls['center_fraction'].value()/100,
+                                  width_fraction=self.controls['width_fraction'].value()/100,
+                                  size_fraction=self.controls['size_fraction'].value()/100)
         self.timer.start(0)
         self.log('gesture_cancel' if cancelled else 'gesture_commit')
 
@@ -598,7 +655,7 @@ class HookStyleEditor(QWidget):
         hook = dict(self.hook, top_fraction=styles['hook']['top_fraction'], manual=self.manual.currentIndex() == 1)
         if self.example:
             hook.update(text='CONTOH GAYA HOOK', enabled=True, manual=False)
-        return {'timestamp': self.preview_limit*self.slider.value()/1000,
+        return {'timestamp': min(self.preview_limit, self.slider.value()/1000),
                 'hook': hook, 'hook_style': styles['hook'], 'subtitle_style': styles['subtitle'], 'style_example': self.example,
                 'style_session_id': self.session_id, 'editor_mode': 'visual', 'editor_target': self.target,
                 'gesture_state': self.gesture_state}
@@ -621,7 +678,7 @@ class HookStyleEditor(QWidget):
             prefix += 'Hook tidak tampil pada waktu ini · '
         if self.target == 'subtitle' and not layout.get('subtitle_visible'):
             prefix = 'Jeda ucapan · frame global · '
-        self.status.setText(errors[0]['reason'] if errors else prefix + ('Preview siap · semua cue valid' if self.valid else 'Preview sementara · lanjutkan edit'))
+        self.status.setText(errors[0]['reason'] + ' · Lanjutkan geser atau ubah ukuran; Terapkan menunggu layout valid.' if errors else prefix + ('Preview siap · semua cue valid' if self.valid else 'Preview sementara · lanjutkan edit'))
         self.apply.setEnabled(self.valid and not (self.hook['enabled'] and not self.hook['text'].strip()))
         self.update_input_font()
 
@@ -647,6 +704,7 @@ class HookStyleEditor(QWidget):
         self.preview.finish_text(True)
         self.preview.cancel_gesture()
         for signal, slot in ((self.slider.valueChanged, self.changed), (self.preview.gestureStarted, self.gesture_started),
+            (self.preview.interactionPressed, self.interaction_pressed), (self.preview.interactionReleased, self.interaction_released),
             (self.preview.gestureChanged, self.gesture_changed), (self.preview.gestureFinished, self.gesture_finished),
             (self.preview.textStarted, self.text_started), (self.preview.textChanged, self.text_changed), (self.preview.textFinished, self.text_finished)):
             signal.disconnect(slot)

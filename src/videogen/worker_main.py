@@ -4,6 +4,7 @@ import logging
 import os
 import signal
 import sys
+import traceback
 from pathlib import Path
 
 from videogen.application.ports import Cancelled, UserFacingError
@@ -112,13 +113,17 @@ def main() -> int:
         logger.exception("Processing failed: source=%s", args.source)
         diagnostics_failed = _record_project_event(args, "failed", type(error).__name__, str(error))
         suffix = "\nProject diagnostics.jsonl gagal ditulis." if diagnostics_failed else ""
-        send("failed", operation=args.operation, cue_timestamp=getattr(error, "cue_timestamp", None), message=f"{error}{suffix}\nLog: {args.log_file}", log_path=str(args.log_file))
+        send("failed", operation=args.operation, error_type=type(error).__name__,
+             traceback=traceback.format_exc()[-12000:], cue_timestamp=getattr(error, "cue_timestamp", None),
+             message=f"{error}{suffix}\nLog: {args.log_file}", log_path=str(args.log_file))
         return 1
-    except Exception:
+    except Exception as error:
         logger.exception("Unhandled worker error: source=%s", args.source)
         diagnostics_failed = _record_project_event(args, "failed", "UnhandledError")
         suffix = " Project diagnostics.jsonl gagal ditulis." if diagnostics_failed else ""
-        send("failed", operation=args.operation, message=f"Pemrosesan gagal.{suffix} Lihat log: {args.log_file}", log_path=str(args.log_file))
+        send("failed", operation=args.operation, error_type=type(error).__name__,
+             traceback=traceback.format_exc()[-12000:],
+             message=f"Pemrosesan gagal.{suffix} Lihat log: {args.log_file}", log_path=str(args.log_file))
         return 1
 
 

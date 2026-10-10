@@ -151,6 +151,53 @@ class FFmpegMediaProcessor:
         else:
             self._render(source, ass, output, info, self._font_directory)
 
+    def render_edit(self, source, ass, output, info, edit, boundaries):
+        """Normalize both streams to video time, cut together, then burn output-time ASS."""
+        count = len(edit.segments)
+        if not count:
+            raise UserFacingError("Timeline kosong.")
+        last = edit.segments[-1]
+        tail_frame = max(value for value in boundaries if value < last.end-1e-9)
+        tail_duration = last.end-tail_frame
+        with TemporaryDirectory(prefix=".fonts-edit-", dir=ass.parent) as folder:
+            self._copy_fonts(Path(folder))
+            filters = []
+            video = f"[0:{info.video_stream_index}]setpts=PTS-{info.video_start:g}/TB"
+            audio = f"[0:{info.audio_stream_index}]asetpts=PTS-{info.video_start:g}/TB"
+            filters.append(video + (f",split={count}" if count > 1 else ",null") + "".join(f"[v{i}]" for i in range(count)))
+            filters.append(audio + (f",asplit={count}" if count > 1 else ",anull") + "".join(f"[a{i}]" for i in range(count)))
+            for i, segment in enumerate(edit.segments):
+                length = segment.end-segment.start
+                filters.append(f"[v{i}]trim=start={segment.start:.9f}:end={segment.end:.9f},setpts=PTS-STARTPTS[cv{i}]")
+                filters.append(f"[a{i}]atrim=start={segment.start:.9f}:end={segment.end:.9f},"
+                    f"asetpts=PTS-{segment.start:.9f}/TB,aresample=async=1:first_pts=0,apad,atrim=duration={length:.9f}[ca{i}]")
+            inputs = "".join(f"[cv{i}][ca{i}]" for i in range(count))
+            filters.append(f"{inputs}concat=n={count}:v=1:a=1[cutv][outa]")
+            filters.append(f"[cutv]ass=filename='{self._filter_path(ass)}':fontsdir='{self._filter_path(Path(folder))}',"
+                "pad=ceil(iw/2)*2:ceil(ih/2)*2:0:0:black[outv]")
+            progress_file = Path(folder)/"progress.txt"
+            command = ["ffmpeg", "-nostdin", "-hide_banner", "-nostats", "-loglevel", "info", "-y", "-copyts",
+                "-i", str(source), "-filter_complex", ";".join(filters), "-map", "[outv]", "-map", "[outa]",
+                "-fps_mode", "passthrough", "-enc_time_base", "demux", "-c:v", "libx264", "-bf", "0",
+                "-bsf:v", f"setts=duration={tail_duration:.9f}/TB", "-preset", "medium", "-crf", "18",
+                "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-metadata:s:v:0", "rotate=0",
+                "-movflags", "+faststart", "-progress", str(progress_file), str(output)]
+            stderr = self._run(command, "Gagal merender potongan video.", progress_file, edit.duration, self.progress)
+            self._verify_font_selection(stderr, require_selection="Dialogue:" in ass.read_text(encoding="utf-8-sig"))
+
+    def extract_preview_mapped(self, source, ass, output_time, source_time, output, info):
+        with TemporaryDirectory(prefix=".fonts-mapped-") as folder:
+            self._copy_fonts(Path(folder))
+            filt = (f"setpts=PTS-{info.video_start:g}/TB,trim=start={source_time:.9f},"
+                f"setpts=PTS-STARTPTS+{output_time:.9f}/TB,"
+                f"ass=filename='{self._filter_path(ass)}':fontsdir='{self._filter_path(Path(folder))}',"
+                "pad=ceil(iw/2)*2:ceil(ih/2)*2:0:0:black")
+            command = ["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "info", "-y", "-copyts",
+                "-i", str(source), "-map", f"0:{info.video_stream_index}", "-frames:v", "1", "-vf", filt,
+                "-update", "1", str(output)]
+            stderr = self._run(command, "Gagal membuat preview hasil potongan.")
+            self._verify_font_selection(stderr, require_selection=False)
+
     def extract_preview(self, source: Path, ass: Path, timestamp: float, output: Path, info: MediaInfo) -> None:
         directory = self._font_directory
         if self._font_path is not None:

@@ -207,7 +207,7 @@ class SubtitleFiles:
                 lines.append(
                     f"Dialogue: 0,{_ass_time(start)},{_ass_time(end)},Default,,0,0,0,,{position}{text}"
                 )
-        if not event_count:
+        if cues and not event_count:
             raise UserFacingError("Subtitle tidak memiliki interval yang dapat dirender pada presisi ASS 10 ms.")
         destination.write_text("\n".join(lines) + "\n", encoding="utf-8-sig")
 
@@ -288,7 +288,7 @@ class SubtitleFiles:
             f"{index}\n{_srt_time(cue.start)} --> {_srt_time(cue.end)}\n{_plain_text(cue.text)}"
             for index, cue in enumerate(cues, start=1)
         ]
-        destination.write_text("\n\n".join(blocks) + "\n", encoding="utf-8")
+        destination.write_text("\n\n".join(blocks) + ("\n" if blocks else ""), encoding="utf-8")
 
     def write_transcript(self, destination: Path, words: list[Word]) -> None:
         text = _plain_text(" ".join(word.text for word in words))

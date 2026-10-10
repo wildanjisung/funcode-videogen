@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "run_id": "manual-probe-2026-10-09-libopenshot-qt6",
+  "started_utc": "2026-10-09",
+  "application": "videogen",
+  "python": "3.13",
+  "pyside6_essentials": "6.8.2",
+  "qt_runtime": "6.8.2",
+  "engine": "libopenshot 1.0.1",
+  "engine_build": {
+    "libopenshot_commit": "983c847ce7d0b7bfa4014d90bf86aa961a825f86",
+    "libopenshot_audio_commit": "b4b8cc7779694d75df034ef4a370a8083b07e243",
+    "qt": "6.8.2",
+    "python": "3.13"
+  },
+  "source": {
+    "path": "assets/video/IMG_1703.MOV",
+    "sha256": "eba35a2beabf48f1038c80c80bcb0d0704048282f3d729654c1737e1fadf1b9e",
+    "width": 720,
+    "height": 1280,
+    "fps": 30.0,
+    "duration_seconds": 50.36666488647461,
+    "audio_channels": 2,
+    "sample_rate": 44100
+  },
+  "environment": {
+    "desktop_display": "unavailable to command sandbox; DISPLAY unset, DISPLAY=:1 connection failed",
+    "qt_platform": "offscreen; MainWindow exercised on Hook page",
+    "audio_access": "Host-accessible probe opened default device at 44100 Hz; user confirmed audible output in the desktop session"
+  }
+}

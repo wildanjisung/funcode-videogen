@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "run_id": "75f402c810734d2383b5f0cbb5d20d44",
+  "started_utc": "2026-10-09T17:37:32.086406+00:00",
+  "application": "videogen",
+  "python": "3.13.5",
+  "platform": "Linux-6.12.111+deb13-amd64-x86_64-with-glibc2.41",
+  "qt": "6.8.2",
+  "engine": "libopenshot",
+  "criteria": {
+    "schema_version": 1,
+    "overlay_mean_error_8bit": 2.0,
+    "overlay_fraction_error_above_16": 0.005,
+    "seek_error_frames": 1,
+    "pause_error_frames": 0,
+    "clock_error_seconds": 0.1,
+    "clock_sample_seconds": 3.0
+  },
+  "request_snapshot": {
+    "edit_revision": null,
+    "timeline": null
+  },
+  "project_path": "/tmp/videogen-proof-project",
+  "qt_platform": "offscreen",
+  "source_info": {
+    "video_stream_index": 0,
+    "audio_stream_index": 1,
+    "width": 720,
+    "height": 1280,
+    "display_width": 720,
+    "display_height": 1280,
+    "duration": 55.9,
+    "video_start": 0.0,
+    "audio_start": 0.0,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "pixel_format": "yuv420p",
+    "color_transfer": "bt709",
+    "sample_aspect_ratio": "1:1"
+  },
+  "output_duration": 55.9,
+  "source_sha256": "f34d8231e3be0b111a3cc954b3a38187e5eec3889118ac464fb85dfcf41105b8",
+  "ass_sha256": "aa4981200e049cdb26ac48a337e0425b65c244a4513d382af4a6b0428e7023ed",
+  "subtitle_font_sha256": "14928444e337995a7fe9bae85e20b83139f6e0c78416df87feaf68613d41e02e",
+  "hook_font_sha256": "14928444e337995a7fe9bae85e20b83139f6e0c78416df87feaf68613d41e02e",
+  "version": "1.0.1",
+  "metadata": {
+    "width": 720,
+    "height": 1280,
+    "fps": 30.0,
+    "duration": 55.9,
+    "audio_channels": 2,
+    "sample_rate": 44100
+  },
+  "finished_utc": "2026-10-09T17:37:40.161241+00:00",
+  "terminal_status": "completed",
+  "event_count": 17
+}

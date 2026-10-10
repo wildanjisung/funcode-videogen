@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "run_id": "762cbc9bd51e434b8b8987189c6607da",
+  "records": [
+    {
+      "check_id": "overlay_parity_0",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:32:06.464260+00:00",
+      "timestamp": 0.1,
+      "measured": {
+        "mean_error_8bit": 0.002720269097222222,
+        "fraction_error_above_16": 0.0
+      },
+      "evidence": [
+        "/tmp/videogen-proof-project/diagnostics/mvp3a/0af104bc397642e7b3b53402e77475d5/diagnostic-3418d8151e24/overlay-0-libass.png",
+        "/tmp/videogen-proof-project/diagnostics/mvp3a/0af104bc397642e7b3b53402e77475d5/diagnostic-3418d8151e24/overlay-0-ffmpeg.png"
+      ],
+      "limitation": "Black-frame ASS raster parity; source color/HDR and live frame-clock correlation are separate checks."
+    },
+    {
+      "check_id": "overlay_parity_1",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:32:06.623325+00:00",
+      "timestamp": 4.390000000000001,
+      "measured": {
+        "mean_error_8bit": 0.03780164930555555,
+        "fraction_error_above_16": 0.0008409288194444445
+      },
+      "evidence": [
+        "/tmp/videogen-proof-project/diagnostics/mvp3a/0af104bc397642e7b3b53402e77475d5/diagnostic-3418d8151e24/overlay-1-libass.png",
+        "/tmp/videogen-proof-project/diagnostics/mvp3a/0af104bc397642e7b3b53402e77475d5/diagnostic-3418d8151e24/overlay-1-ffmpeg.png"
+      ],
+      "limitation": "Black-frame ASS raster parity; source color/HDR and live frame-clock correlation are separate checks."
+    },
+    {
+      "check_id": "overlay_parity_2",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:32:06.795220+00:00",
+      "timestamp": 20.0,
+      "measured": {
+        "mean_error_8bit": 0.027974537037037037,
+        "fraction_error_above_16": 0.0005750868055555556
+      },
+      "evidence": [
+        "/tmp/videogen-proof-project/diagnostics/mvp3a/0af104bc397642e7b3b53402e77475d5/diagnostic-3418d8151e24/overlay-2-libass.png",
+        "/tmp/videogen-proof-project/diagnostics/mvp3a/0af104bc397642e7b3b53402e77475d5/diagnostic-3418d8151e24/overlay-2-ffmpeg.png"
+      ],
+      "limitation": "Black-frame ASS raster parity; source color/HDR and live frame-clock correlation are separate checks."
+    },
+    {
+      "check_id": "overlay_parity_3",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:32:06.955075+00:00",
+      "timestamp": 35.81,
+      "measured": {
+        "mean_error_8bit": 0.029491825810185186,
+        "fraction_error_above_16": 0.0006412760416666666
+      },
+      "evidence": [
+        "/tmp/videogen-proof-project/diagnostics/mvp3a/0af104bc397642e7b3b53402e77475d5/diagnostic-3418d8151e24/overlay-3-libass.png",
+        "/tmp/videogen-proof-project/diagnostics/mvp3a/0af104bc397642e7b3b53402e77475d5/diagnostic-3418d8151e24/overlay-3-ffmpeg.png"
+      ],
+      "limitation": "Black-frame ASS raster parity; source color/HDR and live frame-clock correlation are separate checks."
+    },
+    {
+      "check_id": "native_frame_delivery",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:32:10.342489+00:00",
+      "measured": {
+        "frames": 88,
+        "position_seconds": 2.933333333333333
+      }
+    },
+    {
+      "check_id": "native_pause",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:32:10.343620+00:00",
+      "measured": {
+        "before": 2.933333333333333,
+        "after": 2.933333333333333
+      }
+    },
+    {
+      "check_id": "native_clock_rate",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:32:13.553098+00:00",
+      "measured": {
+        "wall_seconds": 2.9046517509996193,
+        "playhead_delta_seconds": 2.9
+      },
+      "limitation": "Clock rate alone does not establish physical audio-video synchronization."
+    },
+    {
+      "check_id": "native_seek",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:32:14.142882+00:00",
+      "measured": {
+        "requested": 27.95,
+        "actual": 27.933333333333334,
+        "fps": 30.0
+      }
+    },
+    {
+      "check_id": "frame_clock_correlation",
+      "status": "pending",
+      "time_utc": "2026-10-09T17:32:14.144129+00:00",
+      "limitation": "QtPlayer delivers QImage without frame PTS; callback samples player.Position. Need source-frame identity evidence on a visible desktop."
+    },
+    {
+      "check_id": "physical_audio_video_sync",
+      "status": "pending",
+      "time_utc": "2026-10-09T17:32:14.144972+00:00",
+      "limitation": "Requires synchronized captured sound/image; device initialization and clock rate do not prove this."
+    }
+  ]
+}

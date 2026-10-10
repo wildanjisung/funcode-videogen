@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 import math
 from pathlib import Path
 
@@ -61,7 +61,7 @@ def validate_words(
     valid.sort(key=lambda word: word.start)
 
     clamped = [
-        Word(
+        replace(word,
             text=word.text.strip(),
             start=max(0.0, word.start + offset) if duration is not None else word.start,
             end=min(duration, word.end + offset) if duration is not None else word.end,

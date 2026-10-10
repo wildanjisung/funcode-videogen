@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "run_id": "75f402c810734d2383b5f0cbb5d20d44",
+  "records": [
+    {
+      "check_id": "overlay_parity_0",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:37:32.333141+00:00",
+      "timestamp": 0.1,
+      "measured": {
+        "mean_error_8bit": 0.002720269097222222,
+        "fraction_error_above_16": 0.0
+      },
+      "evidence": [
+        "diagnostics/mvp3-runtime/2026-10-10/final-diagnostic/overlay-0-libass.png",
+        "diagnostics/mvp3-runtime/2026-10-10/final-diagnostic/overlay-0-ffmpeg.png"
+      ],
+      "limitation": "Black-frame ASS raster parity; source color/HDR and live frame-clock correlation are separate checks."
+    },
+    {
+      "check_id": "overlay_parity_1",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:37:32.499619+00:00",
+      "timestamp": 4.390000000000001,
+      "measured": {
+        "mean_error_8bit": 0.03780164930555555,
+        "fraction_error_above_16": 0.0008409288194444445
+      },
+      "evidence": [
+        "diagnostics/mvp3-runtime/2026-10-10/final-diagnostic/overlay-1-libass.png",
+        "diagnostics/mvp3-runtime/2026-10-10/final-diagnostic/overlay-1-ffmpeg.png"
+      ],
+      "limitation": "Black-frame ASS raster parity; source color/HDR and live frame-clock correlation are separate checks."
+    },
+    {
+      "check_id": "overlay_parity_2",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:37:32.655805+00:00",
+      "timestamp": 20.0,
+      "measured": {
+        "mean_error_8bit": 0.027974537037037037,
+        "fraction_error_above_16": 0.0005750868055555556
+      },
+      "evidence": [
+        "diagnostics/mvp3-runtime/2026-10-10/final-diagnostic/overlay-2-libass.png",
+        "diagnostics/mvp3-runtime/2026-10-10/final-diagnostic/overlay-2-ffmpeg.png"
+      ],
+      "limitation": "Black-frame ASS raster parity; source color/HDR and live frame-clock correlation are separate checks."
+    },
+    {
+      "check_id": "overlay_parity_3",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:37:32.806275+00:00",
+      "timestamp": 35.81,
+      "measured": {
+        "mean_error_8bit": 0.029491825810185186,
+        "fraction_error_above_16": 0.0006412760416666666
+      },
+      "evidence": [
+        "diagnostics/mvp3-runtime/2026-10-10/final-diagnostic/overlay-3-libass.png",
+        "diagnostics/mvp3-runtime/2026-10-10/final-diagnostic/overlay-3-ffmpeg.png"
+      ],
+      "limitation": "Black-frame ASS raster parity; source color/HDR and live frame-clock correlation are separate checks."
+    },
+    {
+      "check_id": "native_frame_delivery",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:37:36.342490+00:00",
+      "measured": {
+        "frames": 92,
+        "position_seconds": 3.066666666666667
+      }
+    },
+    {
+      "check_id": "native_pause",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:37:36.344152+00:00",
+      "measured": {
+        "before": 3.066666666666667,
+        "after": 3.066666666666667
+      }
+    },
+    {
+      "check_id": "native_clock_rate",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:37:39.542902+00:00",
+      "measured": {
+        "wall_seconds": 2.89531255899783,
+        "playhead_delta_seconds": 2.9
+      },
+      "limitation": "Clock rate alone does not establish physical audio-video synchronization."
+    },
+    {
+      "check_id": "native_seek",
+      "status": "passed",
+      "time_utc": "2026-10-09T17:37:40.142606+00:00",
+      "measured": {
+        "requested": 27.95,
+        "actual": 27.933333333333334,
+        "fps": 30.0
+      }
+    },
+    {
+      "check_id": "frame_clock_correlation",
+      "status": "pending",
+      "time_utc": "2026-10-09T17:37:40.144141+00:00",
+      "limitation": "QtPlayer delivers QImage without frame PTS; callback samples player.Position. Need source-frame identity evidence on a visible desktop."
+    },
+    {
+      "check_id": "physical_audio_video_sync",
+      "status": "pending",
+      "time_utc": "2026-10-09T17:37:40.147854+00:00",
+      "limitation": "Requires synchronized captured sound/image; device initialization and clock rate do not prove this."
+    },
+    {
+      "check_id": "whisper_word_onset_200ms",
+      "status": "pending",
+      "time_utc": "2026-10-09T17:37:40.149147+00:00",
+      "limitation": "Requires labeled audible word onsets; transcript timestamp validity does not prove onset accuracy."
+    },
+    {
+      "check_id": "visible_desktop_usability",
+      "status": "pending",
+      "time_utc": "2026-10-09T17:37:40.150159+00:00",
+      "limitation": "Requires user evaluation of dragging, canvas size, and styling on visible desktop."
+    },
+    {
+      "check_id": "long_video_hdr_rotation",
+      "status": "pending",
+      "time_utc": "2026-10-09T17:37:40.151110+00:00",
+      "limitation": "Performance and source display parity need representative long/HDR/rotated sources."
+    },
+    {
+      "check_id": "clean_host_native_rebuild",
+      "status": "pending",
+      "time_utc": "2026-10-09T17:37:40.152170+00:00",
+      "limitation": "Current local native installation works; a fresh-machine rebuild has not been validated."
+    },
+    {
+      "check_id": "complete_cancel_crash_recovery",
+      "status": "pending",
+      "time_utc": "2026-10-09T17:37:40.153420+00:00",
+      "limitation": "Full cancellation and crash-recovery matrix has not been exercised."
+    }
+  ]
+}

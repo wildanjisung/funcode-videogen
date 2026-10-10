@@ -242,6 +242,12 @@ def render_project(
 ) -> Path:
     project_dir = project_dir.expanduser().resolve()
     project, words, info = _validate_render_context(project_dir, media, font)
+    source_info = info
+    edited = None
+    if request.get("timeline") is not None:
+        from videogen.application.editor_context import editor_context
+        edited = editor_context(project_dir, request)
+        info, words = edited.info, edited.words
     words_hash = file_sha256(project_dir / "words.json")
     if request.get("validated_words_sha256") and request["validated_words_sha256"] != words_hash:
         raise UserFacingError("Timing/transkrip proyek berubah sejak preview. Perbarui preview sebelum render.")
@@ -249,9 +255,13 @@ def render_project(
     subtitle_style, subtitle_font_ref = _subtitle_context(request, font, media, subtitles)
     spec = HookSpec(**request.get("hook", {}))
     style, hook_font, hook_font_ref = _hook_context(request, font, media)
-    cues = subtitles.prepare_cues(info, build_cues(words, info.duration, info.subtitle_offset,
-                                                   min(24, max_line_characters(info))))
-    if not cues:
+    if edited:
+        from videogen.domain.timeline import project_cues
+        cues = subtitles.prepare_cues(info, project_cues(words, info))
+    else:
+        cues = subtitles.prepare_cues(info, build_cues(words, info.duration, info.subtitle_offset,
+                                                       min(24, max_line_characters(info))))
+    if not cues and not edited:
         raise EmptyTranscription("Transkrip tidak menghasilkan subtitle yang valid.")
     progress("validation", "Semua cue valid; menyiapkan render")
     revision_id = uuid.uuid4().hex[:12]
@@ -268,13 +278,22 @@ def render_project(
         hook_layout = append_hook_ass(ass, info, spec, hook_font, style)
         progress("render", "Merender revisi dari video sumber")
         video = staging / f"{source.stem}_subtitled.mp4"
-        media.render(source, ass, video, info)
+        if edited:
+            from videogen.infrastructure.frame_index import frame_boundaries
+            boundaries = frame_boundaries(project_dir, project, source_info)
+            for segment in edited.edit.segments:
+                if any(not any(abs(edge-point) < 1e-7 for point in boundaries) for edge in (segment.start, segment.end)):
+                    raise UserFacingError("Batas segmen harus mengikuti timestamp frame sumber. Perbarui potongan melalui editor.")
+            media.render_edit(source, ass, video, source_info, edited.edit, boundaries)
+        else:
+            media.render(source, ass, video, info)
         check_cancelled()
         progress("finalizing", "Menyimpan hasil dan memeriksa revisi")
         if file_sha256(source) != project["source_sha256"]:
             raise UserFacingError("Sumber video berubah saat render. Revisi ini tidak diterbitkan.")
         transcript = staging / f"{source.stem}_subtitled.txt"
-        transcript.write_text((project_dir / "transcript.txt").read_text(encoding="utf-8"), encoding="utf-8")
+        transcript.write_text(edited.transcript + ("\n" if edited.transcript else "") if edited
+            else (project_dir / "transcript.txt").read_text(encoding="utf-8"), encoding="utf-8")
         srt = staging / f"{source.stem}_subtitled.srt"
         subtitles.write_srt(srt, cues)
         (staging / "hook.txt").write_text("\n".join(line.text for line in hook_layout.lines) + "\n" if hook_layout else "", encoding="utf-8")
@@ -285,9 +304,12 @@ def render_project(
                             "start": hook_layout.start, "end": hook_layout.end} if hook_layout else None,
             "subtitle_config": project["subtitle_config"], "font": subtitle_font_ref,
             "subtitle_style": asdict(subtitle_style), "subtitle_scope": "whole_video", "subtitle_anchor": "center", "words_sha256": words_hash,
+            "timeline": edited.edit.to_dict() if edited else None,
+            "source_duration": source_info.duration, "output_duration": info.duration,
+            "partial_word_count": sum(getattr(word, "partial", False) for word in words),
         }
         atomic_json(staging / "render.json", render_info)
-        if not all(path.is_file() and path.stat().st_size > 0 for path in (video, transcript, srt)):
+        if not video.is_file() or video.stat().st_size == 0 or not all(path.is_file() for path in (transcript, srt)):
             raise UserFacingError("Output revisi tidak lengkap.")
         check_cancelled()
         ass.unlink(missing_ok=True)
@@ -316,12 +338,21 @@ def create_preview(
 ) -> tuple[Path, int, float | None]:
     project_dir = project_dir.expanduser().resolve()
     project, words, info = _validate_render_context(project_dir, media, font)
+    edited = None
+    if request.get("timeline") is not None:
+        from videogen.application.editor_context import editor_context
+        edited = editor_context(project_dir, request, allow_invalid=True)
+        info, words = edited.info, edited.words
     subtitle_style, subtitle_font_ref = _subtitle_context(request, font, media, subtitles)
     timestamp = max(0.0, min(float(request.get("timestamp", 0)), info.duration - 0.01))
     spec = HookSpec(**request.get("hook", {}))
     style, hook_font, hook_font_ref = _hook_context(request, font, media)
-    cues = subtitles.prepare_cues(info, build_cues(words, info.duration, info.subtitle_offset,
-                                                   min(24, max_line_characters(info))), allow_invalid=True)
+    if edited:
+        from videogen.domain.timeline import project_cues
+        cues = subtitles.prepare_cues(info, project_cues(words, info), allow_invalid=True)
+    else:
+        cues = subtitles.prepare_cues(info, build_cues(words, info.duration, info.subtitle_offset,
+                                                       min(24, max_line_characters(info))), allow_invalid=True)
     temp_dir = output.parent
     temp_dir.mkdir(parents=True, exist_ok=True)
     ass = temp_dir / f".{output.stem}.ass"
@@ -329,7 +360,11 @@ def create_preview(
         subtitles.write_ass(ass, info, cues)
         hook_layout = append_hook_ass(ass, info, spec, hook_font, style)
         check_cancelled()
-        media.extract_preview(Path(project["source_path"]), ass, timestamp, output, info)
+        if edited:
+            media.extract_preview_mapped(Path(project["source_path"]), ass, timestamp,
+                edited.edit.source_time(timestamp), output, edited.source_info)
+        else:
+            media.extract_preview(Path(project["source_path"]), ass, timestamp, output, info)
         ass_hash = file_sha256(ass)
         _append_event(project_dir, operation="preview", status="completed",
                       request_id=request.get("request_id"), check_id="preview_render_match",
@@ -344,7 +379,7 @@ def create_preview(
         atomic_json(output.with_suffix(".layout.json"), {"subtitle_bounds": subtitles.cue_bounds(info, sample) if sample else None,
                     "subtitle_visible": active_cue is not None, "hook_visible": bool(hook_layout and hook_layout.start <= timestamp < hook_layout.end), "cue_starts": [c.start for c in cues], "all_cues_valid": not subtitles.validation_errors,
                     "validation_errors": subtitles.validation_errors,
-                    "timestamp": timestamp, "words_sha256": file_sha256(project_dir / "words.json"), "snapshot_sha256": hashlib.sha256(json.dumps({k:request.get(k) for k in ("hook", "hook_style", "subtitle_style")}, sort_keys=True).encode()).hexdigest(),"font_size": hook_layout.font_size if hook_layout else None,
+                    "timestamp": timestamp, "words_sha256": file_sha256(project_dir / "words.json"), "snapshot_sha256": hashlib.sha256(json.dumps({k:request.get(k) for k in ("hook", "hook_style", "subtitle_style", "timeline")}, sort_keys=True).encode()).hexdigest(),"font_size": hook_layout.font_size if hook_layout else None,
                     "panel_bounds": _style_event(style, hook_font_ref, hook_layout)["panel_bounds"]})
         return output, len(hook_layout.lines) if hook_layout else 0, hook_layout.end if hook_layout else None
     finally:

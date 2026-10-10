@@ -1,0 +1,39 @@
+{
+  "native_ready": true,
+  "frame_time": 2.2333333333333334,
+  "position": 2.233,
+  "native_frame_size": [
+    720,
+    1280
+  ],
+  "1040": {
+    "actual_size": [
+      1040,
+      720
+    ],
+    "preview_size": [
+      665,
+      258
+    ],
+    "timeline_size": [
+      1004,
+      152
+    ]
+  },
+  "800": {
+    "actual_size": [
+      800,
+      600
+    ],
+    "preview_size": [
+      505,
+      138
+    ],
+    "timeline_size": [
+      764,
+      152
+    ]
+  },
+  "edit_time": 2.233,
+  "editor_request_time": 2.233
+}

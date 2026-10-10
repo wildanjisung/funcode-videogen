@@ -1,6 +1,6 @@
 """Visual selection and text input; exported pixels always come from ASS."""
-from PySide6.QtCore import QEvent, QPointF, QRectF, Qt, Signal
-from PySide6.QtGui import QColor, QPainter, QPen
+from PySide6.QtCore import QEvent, QPointF, QRectF, Qt, Signal, Slot
+from PySide6.QtGui import QColor, QImage, QPainter, QPen, QPixmap
 from PySide6.QtWidgets import QApplication, QLabel, QPlainTextEdit, QWidget
 
 
@@ -23,12 +23,15 @@ class HookTextInput(QPlainTextEdit):
 
 
 class HookPreview(QLabel):
+    interactionPressed = Signal()
+    interactionReleased = Signal()
     gestureStarted = Signal()
     gestureChanged = Signal(float, float, float, float)  # top, center, width, requested font/H
     gestureFinished = Signal(bool)
     textStarted = Signal()
     textChanged = Signal(str)
     textFinished = Signal(bool)
+    framePresented = Signal(float)
 
     def __init__(self, text: str = "") -> None:
         super().__init__(text)
@@ -36,6 +39,12 @@ class HookPreview(QLabel):
         self.setFocusPolicy(Qt.FocusPolicy.ClickFocus)
         self.setMouseTracking(True)
         self._editing = False
+        self.native_active = True
+        self.frame_clock = None
+        self.frame_compositor = None
+        self.last_native_frame = None
+        self._native_pixmap = None
+        self.last_native_time = 0.0
         self.target = "hook"
         self.source_size = None
         self._selected = True
@@ -53,6 +62,25 @@ class HookPreview(QLabel):
         self.input.hide()
         self.input.textChanged.connect(lambda: self.textChanged.emit(self.input.toPlainText()) if self._text_active else None)
         self.input.finished.connect(self.finish_text)
+
+    @Slot(QImage)
+    def present(self, image: QImage) -> None:
+        """QtPlayer callback; QImage is copied before native frame release."""
+        if not self.native_active:
+            return
+        self.last_native_frame = image.copy()
+        self.last_native_time = self.frame_clock() if self.frame_clock else 0.0
+        frame = self.frame_compositor(image, self.last_native_time) if self.frame_compositor else image.copy()
+        self._native_pixmap = QPixmap.fromImage(frame)
+        self.setPixmap(self._native_pixmap.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation))
+        self.framePresented.emit(self.last_native_time)
+
+    def resizeEvent(self, event):
+        super().resizeEvent(event)
+        if self.native_active and self._native_pixmap:
+            self.setPixmap(self._native_pixmap.scaled(self.size(), Qt.AspectRatioMode.KeepAspectRatio,
+                Qt.TransformationMode.SmoothTransformation))
 
     def set_editor(self, active: bool) -> None:
         self.cancel_gesture()
@@ -92,9 +120,19 @@ class HookPreview(QLabel):
 
     def selection_rect(self) -> QRectF:
         image = self.image_rect()
-        return QRectF(image.x() + image.width()*(self._center-self._width/2),
+        box = QRectF(image.x() + image.width()*(self._center-self._width/2),
                       image.y() + image.height()*(self._top-(self._block_fraction/2 if self.target == "subtitle" else 0)), image.width()*self._width,
                       image.height()*self._block_fraction)
+        if image.isEmpty():
+            return box
+        # Keep editing handles reachable even when the requested layout is outside
+        # the video. This is a selection proxy; exported geometry stays unchanged.
+        inset = min(10., image.width()/4, image.height()/4)
+        area = image.adjusted(inset, inset, -inset, -inset)
+        width = min(max(12., box.width()), area.width())
+        height = min(max(12., box.height()), area.height())
+        return QRectF(min(max(box.x(), area.left()), area.right()-width),
+                      min(max(box.y(), area.top()), area.bottom()-height), width, height)
 
     def handles(self):
         box = self.selection_rect()
@@ -122,7 +160,7 @@ class HookPreview(QLabel):
         image = self.image_rect()
         painter.setClipRect(image)
         # Blue during a gesture denotes the active object, not a valid preview.
-        active_or_valid = self._drag is not None or self._validated
+        active_or_valid = self._drag is not None or self._pending_drag is not None or self._validated
         pen = QPen(QColor("#2689ff" if active_or_valid else "#ffc542"), 2)
         if not active_or_valid:
             pen.setStyle(Qt.PenStyle.DashLine)
@@ -151,6 +189,7 @@ class HookPreview(QLabel):
             if mode:
                 self.setFocus(Qt.FocusReason.MouseFocusReason)
                 self._pending_drag = (mode, QPointF(point), self._top, self._center, self._width, self._size, self._block_fraction, QRectF(image))
+                self.interactionPressed.emit()
             self.update()
             event.accept()
             return
@@ -191,7 +230,13 @@ class HookPreview(QLabel):
             elif mode == "width":
                 self._width = min(1, max(.01, 2*abs(point.x()-(image.x()+image.width()*center))/image.width()))
             else:
-                pivot = QPointF(image.x()+image.width()*center, image.y()+image.height()*(top+(0 if self.target == "subtitle" else block/2)))
+                # The resize gesture uses the reachable selection proxy, including
+                # layouts whose real bounds are beyond the image.
+                current_top, current_center = self._top, self._center
+                current_width, current_block = self._width, self._block_fraction
+                self._top, self._center, self._width, self._block_fraction = top, center, width, block
+                pivot = self.selection_rect().center()
+                self._top, self._center, self._width, self._block_fraction = current_top, current_center, current_width, current_block
                 initial = max(1, (origin-pivot).manhattanLength())
                 scale = max(.01, (point-pivot).manhattanLength()/initial)
                 self._size = min(1, max(.0001, size*scale))
@@ -209,6 +254,7 @@ class HookPreview(QLabel):
     def mouseReleaseEvent(self, event) -> None:
         if self._pending_drag and event.button() == Qt.MouseButton.LeftButton:
             self._pending_drag = None
+            self.interactionReleased.emit()
             self.update()
             event.accept()
             return
@@ -235,6 +281,9 @@ class HookPreview(QLabel):
             self.gestureFinished.emit(True)
             self.update()
             return True
+        if pending:
+            self.interactionReleased.emit()
+            self.update()
         return pending
 
     def event(self, event) -> bool:
