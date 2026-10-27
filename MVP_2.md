@@ -1,4 +1,4 @@
-# MVP 2 — Hook Text melalui Copy dan Paste ChatGPT
+dis# MVP 2 — Hook Text melalui Copy dan Paste ChatGPT
 
 Status: fitur dasar MVP 2 dan penyederhanaan UI tiga tahap sudah diimplementasikan. Pemeriksaan implementasi awal dicatat pada Bagian 14, dan pemeriksaan UI pada Bagian 15. Kenyamanan penggunaan, tampilan pada layar aktual pengguna, validasi unggahan Reels, serta akurasi onset kata masih memerlukan evaluasi pengguna.
 

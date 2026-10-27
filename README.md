@@ -79,3 +79,5 @@ Log diagnostik disimpan lokal di `${XDG_STATE_HOME:-~/.local/state}/videogen/vid
 Setiap job mencatat `Timestamp accuracy evaluation` dengan status `pending`, target 200 ms, dan hasil pengukuran onset kata `unmeasured`. Sampel cue awal/tengah/akhir mencatat indeks dan timestamp video tanpa isi transkrip. Status ini menjadi bahan evaluasi akurasi Whisper; keberhasilan render atau korelasi audio tidak otomatis mengubahnya menjadi lulus.
 
 See [MVP 1 — subtitle dengan highlight kata aktif](MVP_1.md), [MVP 0 scope](MVP_0.md), and [technical architecture](ARSITEKTUR_TEKNIS.md).
+
+test push
