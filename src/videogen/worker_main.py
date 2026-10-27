@@ -5,6 +5,7 @@ import os
 import signal
 import sys
 import traceback
+import threading
 from pathlib import Path
 
 from videogen.application.ports import Cancelled, UserFacingError
@@ -15,6 +16,7 @@ from videogen.infrastructure.logging_config import configure_logging, default_lo
 from videogen.infrastructure.fonts import SubtitleFont, default_font_path
 from videogen.infrastructure.subtitles import SubtitleFiles
 from videogen.infrastructure.whisper import FasterWhisperTranscriber
+from videogen.infrastructure.paths import default_model_path
 
 
 def send(kind: str, **payload: object) -> None:
@@ -23,12 +25,13 @@ def send(kind: str, **payload: object) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--operation", choices=("transcribe", "render", "preview"), default="transcribe")
+    parser.add_argument("--operation", choices=("transcribe", "render", "preview", "playback"), default="transcribe")
     parser.add_argument("--source", type=Path)
     parser.add_argument("--output", type=Path)
     parser.add_argument("--project", type=Path)
     parser.add_argument("--request", type=Path)
     parser.add_argument("--log-file", type=Path, default=default_log_path())
+    parser.add_argument("--cancel-file", type=Path)
     args = parser.parse_args()
     try:
         configure_logging(args.log_file)
@@ -47,21 +50,33 @@ def main() -> int:
     signal.signal(signal.SIGTERM, request_cancel)
     signal.signal(signal.SIGINT, request_cancel)
     reset_cancel()
+    if args.cancel_file:
+        def watch_cancel() -> None:
+            from videogen.infrastructure.ffmpeg import _CANCELLED
+            while not _CANCELLED.wait(.15):
+                if args.cancel_file.exists():
+                    request_cancel(0, None)
+        threading.Thread(target=watch_cancel, daemon=True).start()
     logger.info("Operation started: operation=%s", args.operation)
     send("ready")
 
-    model_path = Path(
-        os.environ.get(
-            "VIDEOGEN_MODEL_PATH",
-            Path(__file__).parents[2] / ".cache" / "models" / "small",
-        )
-    )
+    model_path = default_model_path()
     def check_cancelled() -> None:
         if _cancel_requested():
             raise Cancelled("Proses dibatalkan.")
 
     try:
         FFmpegMediaProcessor.check_environment()
+        if args.operation == "playback":
+            if args.source is None or args.output is None:
+                raise UserFacingError("Playback memerlukan sumber dan file hasil.")
+            media = FFmpegMediaProcessor()
+            media.progress = lambda stage, message, percent=None, measurement=None: send(
+                "stage", stage=stage, message=message, percent=percent, measurement=measurement)
+            info = media.probe(args.source)
+            media.create_playback(args.source, args.output, info)
+            send("completed", operation="playback", video=str(args.output))
+            return 0
         font = SubtitleFont(default_font_path())
         media = FFmpegMediaProcessor(font_path=font.path, expected_font=font.postscript_name)
         subtitles = SubtitleFiles(font)

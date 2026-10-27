@@ -1,0 +1,131 @@
+{
+  "date": "2026-10-27",
+  "base_url": "http://127.0.0.1:8765",
+  "browser_interaction_tested": false,
+  "macos_tested": false,
+  "windows_tested": false,
+  "sample": "8-second excerpt from assets/video/IMG_1703.MOV",
+  "operations": [
+    {
+      "operation": "transcribe",
+      "job_id": "7ef1d6f39ae14d79a4838a74e40e8f14",
+      "status": "completed"
+    },
+    {
+      "operation": "preview",
+      "job_id": "dbbaa1ae3d8e405f881ffbda5ceba6ee",
+      "status": "completed"
+    },
+    {
+      "operation": "render",
+      "job_id": "ff54755646744f08b79cee5eac10354c",
+      "status": "completed"
+    }
+  ],
+  "project_id": "0c015d7fe8e143d296183101fc91cb6d",
+  "word_count": 23,
+  "media": {
+    "video_stream_index": 0,
+    "audio_stream_index": 1,
+    "width": 720,
+    "height": 1280,
+    "display_width": 720,
+    "display_height": 1280,
+    "duration": 8.0,
+    "video_start": 0.0,
+    "audio_start": 0.0,
+    "video_codec": "h264",
+    "audio_codec": "aac",
+    "pixel_format": "yuv420p",
+    "color_transfer": "bt709",
+    "sample_aspect_ratio": "1:1"
+  },
+  "preview_layout": {
+    "subtitle_bounds": {
+      "x": 43.19999999999999,
+      "y": 925.0078125,
+      "width": 633.6,
+      "height": 44.384375,
+      "font_size": 38
+    },
+    "subtitle_visible": true,
+    "hook_visible": true,
+    "cue_starts": [
+      0.05,
+      1.25,
+      1.95,
+      2.83,
+      4.25,
+      5.19,
+      6.17,
+      6.91,
+      7.85
+    ],
+    "all_cues_valid": true,
+    "validation_errors": [],
+    "timestamp": 0.8,
+    "words_sha256": "a1195949f8e6f154ae3b75503d4c7ad160a44ae0aa96378a52ffe1f4447764dd",
+    "snapshot_sha256": "107d611ff0bda93b5744b5eb3df2244d1283f9b3361e25ac5c7d7d5ecf48d4bf",
+    "font_size": 38,
+    "panel_bounds": [
+      {
+        "x": 75.80000000000001,
+        "y": 192.0,
+        "width": 568.4,
+        "height": 55.284375
+      }
+    ]
+  },
+  "revision_id": "3817b1168147",
+  "artifacts": {
+    "mp4": {
+      "status": 200,
+      "bytes": 1726570,
+      "sha256": "2833b8353f9291a160ca8ab71e99e0387eba0428d510887bf5dc24fd9872f4b2"
+    },
+    "txt": {
+      "status": 200,
+      "bytes": 126,
+      "sha256": "24d3b905a6c6b5f3924d8c4570ada2097b37a1a78feb210ae0c68194addce37d"
+    },
+    "srt": {
+      "status": 200,
+      "bytes": 422,
+      "sha256": "89574f9b365081af285cfc3b13405ed6d1e3ddc8bad6a39cad95e8379cf208c3"
+    }
+  },
+  "range_requests": "passed",
+  "reopen_draft_and_revision": "passed",
+  "status": "passed",
+  "regression": {
+    "command": "QT_QPA_PLATFORM=offscreen .venv/bin/python -m unittest discover -s tests -v",
+    "passed": 43,
+    "failed": 0,
+    "duration_seconds": 15.95,
+    "web_tests": 9
+  },
+  "syntax_checks": {
+    "python_compileall": "passed",
+    "node_check": "passed"
+  },
+  "versions": {
+    "fastapi": "0.162.0",
+    "uvicorn": "0.54.0",
+    "starlette": "1.10.0",
+    "psutil": "7.2.2",
+    "PySide6-Essentials": "6.8.2",
+    "faster-whisper": "1.2.1",
+    "av": "18.1.0"
+  },
+  "browser_availability": {
+    "apps": [],
+    "browsers": []
+  },
+  "restart_recovery": "passed: same project, draft, revision, and MP4 hash after server restart",
+  "wheel": {
+    "filename": "videogen_mvp0-0.1.0-py3-none-any.whl",
+    "bytes": 501100,
+    "sha256": "a0782a3ed9327932593a7c4cc8574afaf5ebfbd07a1b91366a8fa4a6488a1e2f",
+    "static_assets_and_launcher": "passed"
+  }
+}

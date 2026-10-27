@@ -141,6 +141,22 @@ class FFmpegMediaProcessor:
         ]
         self._run(command, "Gagal mengekstrak audio.")
 
+    def create_playback(self, source: Path, output: Path, info: MediaInfo) -> None:
+        """Publish a browser-compatible source proxy without changing project media."""
+        output.parent.mkdir(parents=True, exist_ok=True)
+        with TemporaryDirectory(prefix=".playback-", dir=output.parent) as folder:
+            temporary = Path(folder) / "playback.mp4"
+            progress_file = Path(folder) / "progress.txt"
+            command = ["ffmpeg", "-nostdin", "-hide_banner", "-loglevel", "error", "-y",
+                "-i", str(source), "-map", f"0:{info.video_stream_index}", "-map", f"0:{info.audio_stream_index}",
+                "-vf", "scale=w='min(960,iw)':h='min(960,ih)':force_original_aspect_ratio=decrease:force_divisible_by=2,setsar=1",
+                "-c:v", "libx264", "-preset", "veryfast", "-crf", "24", "-pix_fmt", "yuv420p",
+                "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", "-progress", str(progress_file), str(temporary)]
+            self._run(command, "Gagal menyiapkan video untuk browser.", progress_file, info.duration, self.progress)
+            if _CANCELLED.is_set():
+                raise Cancelled("Proses dibatalkan.")
+            temporary.replace(output)
+
     def render(self, source: Path, ass: Path, output: Path, info: MediaInfo) -> None:
         if self._font_path is not None:
             # Load only the validated file; other fonts in its source directory

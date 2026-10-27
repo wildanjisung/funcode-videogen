@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Videogen — Ruang edit</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script type="module" src="/static/app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Videogen, ruang edit">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="2" y="2" width="28" height="28" rx="9" fill="currentColor"/><path d="m10 11 6 12 6-12h-5l-1 4-1-4z" fill="white"/></svg>
+      <strong>videogen</strong>
+    </a>
+    <span class="divider"></span>
+    <div class="document"><span id="document-name">Ruang edit</span><small id="save-status">Video menjadi cerita.</small></div>
+    <div class="top-actions">
+      <button id="undo" class="icon-button" aria-label="Urungkan perubahan" title="Urungkan" disabled>↶</button>
+      <button id="redo" class="icon-button" aria-label="Ulangi perubahan" title="Ulangi" disabled>↷</button>
+      <button id="save" aria-describedby="save-status" disabled>Simpan draft</button>
+      <button id="render" class="primary" aria-describedby="workflow-message" disabled><span id="render-label">Render MP4</span></button>
+    </div>
+  </header>
+
+  <section id="workflow-status" class="workflow-status" data-tone="info" aria-labelledby="workflow-title">
+    <div><strong id="workflow-title">Mulai dengan video</strong><p id="workflow-message" role="status" aria-live="polite">Pilih video untuk membuat transkrip, lalu atur hook dan subtitle.</p></div>
+    <button id="workflow-action" type="button" hidden>Langkah berikutnya</button>
+  </section>
+  <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+  <section id="setup" class="setup" aria-label="Kesiapan aplikasi" hidden></section>
+
+  <main class="workspace">
+    <aside class="library" aria-label="Video dan proyek">
+      <div class="panel-heading"><h1>Proyek</h1><span class="quiet">Disimpan lokal</span></div>
+      <label class="drop-zone" id="drop-zone" for="video-file">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="7" y="8" width="26" height="26" rx="5"/><path d="M7 17h26M15 8l6 9m3-9 6 9m-10 6v7m-4-3h8"/></svg>
+        <strong>Pilih video</strong><span>atau letakkan file di sini</span><small id="upload-limit">MP4 / MOV</small>
+        <input id="video-file" type="file" accept="video/mp4,video/quicktime,.mp4,.mov">
+      </label>
+      <p class="library-note">Satu video, satu ruang untuk hook dan subtitle.</p>
+      <div id="project-list" class="project-list" aria-label="Daftar proyek"></div>
+      <button id="retry-transcribe" hidden>Buat transkrip</button>
+      <p id="empty-projects" class="empty-projects">Proyek pertama dimulai dari video Anda.</p>
+      <div class="local-note"><span class="local-dot"></span><div>Berjalan di komputer ini<small>Video diproses secara lokal.</small></div></div>
+    </aside>
+
+    <section class="editing-room" aria-label="Preview video">
+      <div class="canvas-toolbar">
+        <div class="view-tabs" aria-label="Tampilan video">
+          <button id="frame-view" aria-pressed="true">Preview hasil</button>
+          <button id="source-view" aria-pressed="false" disabled>Video sumber</button>
+        </div>
+        <span id="dimensions" class="quiet">Belum ada video</span>
+      </div>
+      <div class="canvas-well">
+        <div id="canvas-empty" class="canvas-empty">
+          <div class="caption-demo" aria-hidden="true"><span>Setiap video</span><span>punya <mark>cerita.</mark></span></div>
+          <h2>Mulai dari suaranya.</h2>
+          <p>Pilih video untuk membuat transkrip.<br>Tambahkan hook, atur subtitle, lalu render.</p>
+        </div>
+        <div id="stage" class="stage" hidden>
+          <video id="source-video" controls playsinline preload="metadata" aria-label="Video sumber" hidden></video>
+          <img id="preview-image" alt="Frame video dengan hook dan subtitle hasil FFmpeg" hidden>
+          <div id="frame-placeholder" class="frame-placeholder"><span>Transkrip siap.</span><p>Atur hook dan subtitle, lalu perbarui preview.</p></div>
+          <button id="hook-handle" class="text-handle hook-handle" aria-label="Geser posisi hook; tombol panah untuk penyesuaian" hidden><span>Hook</span></button>
+          <button id="subtitle-handle" class="text-handle subtitle-handle" aria-label="Geser posisi subtitle; tombol panah untuk penyesuaian" hidden><span>Subtitle</span></button>
+        </div>
+        <div id="playback-fallback" class="playback-fallback" hidden><p>Format video ini belum bisa diputar browser.</p><button id="prepare-playback">Siapkan video untuk browser</button></div>
+      </div>
+      <div class="preview-caption"><span id="preview-state">Preview akan tampil di sini.</span><span id="frame-time"></span></div>
+      <div class="transport">
+        <output id="time-label" for="scrub">00:00.00</output>
+        <input id="scrub" aria-label="Waktu preview video" type="range" min="0" max="1" value="0" step="0.01" disabled>
+        <span id="duration-label">00:00.00</span>
+        <button id="next-cue" title="Pindah ke subtitle berikutnya" disabled>Cue berikutnya</button>
+        <button id="preview" class="preview-button" disabled>Perbarui preview</button>
+      </div>
+      <section id="job-panel" class="job-panel" aria-label="Pekerjaan aktif" hidden>
+        <div><strong id="job-title">Memulai</strong><span id="job-percent"></span></div>
+        <progress id="job-progress" max="100" aria-label="Progress pekerjaan"></progress>
+        <div><span id="job-message" aria-live="polite"></span><button id="cancel" class="text-button">Batalkan</button></div>
+        <a id="job-log" class="quiet" hidden>Unduh log pekerjaan</a>
+      </section>
+      <section class="transcript-panel">
+        <div class="panel-heading"><h2>Transkrip</h2><button id="copy-transcript" class="text-button" disabled>Salin transkrip</button></div>
+        <p id="transcript-empty" class="quiet">Hasil transkripsi dan timing kata akan muncul di sini.</p>
+        <div id="transcript" class="transcript" aria-label="Transkrip; pilih kata untuk menuju waktunya"></div>
+      </section>
+    </section>
+
+    <aside class="inspector" aria-label="Pengaturan teks">
+      <div class="panel-heading"><h2>Penataan teks</h2><span class="scope" id="scope-label">Hook</span></div>
+      <div class="target-tabs" role="tablist" aria-label="Target pengaturan">
+        <button id="hook-tab" role="tab" aria-selected="true" aria-controls="editor-fields">Hook</button>
+        <button id="subtitle-tab" role="tab" aria-selected="false" aria-controls="editor-fields">Subtitle</button>
+      </div>
+      <fieldset id="editor-fields" disabled>
+        <legend class="sr-only">Gaya teks yang dipilih</legend>
+        <section id="hook-fields" class="hook-fields">
+          <label class="check-row"><span>Tampilkan hook</span><input id="hook-enabled" type="checkbox" checked></label>
+          <label for="hook-text">Judul pembuka</label>
+          <textarea id="hook-text" rows="4" maxlength="500" placeholder="Apa yang membuat video ini layak ditonton?"></textarea>
+          <small>Tulis judul, atau matikan hook untuk hanya subtitle.</small>
+          <label class="check-row"><span>Pemenggalan baris manual</span><input id="hook-manual" type="checkbox"></label>
+          <div class="two-fields"><label>Durasi <span class="unit">detik</span><input id="hook-duration" type="number" min="0.1" max="86400" step="any" value="5"></label><label class="check-row compact"><input id="hook-full" type="checkbox"><span>Sepanjang video</span></label></div>
+        </section>
+        <p id="subtitle-scope" class="scope-note" hidden>Gaya ini berlaku untuk seluruh subtitle. Timing kata tetap mengikuti transkrip.</p>
+        <div class="font-summary"><span id="font-name">Helvetica Neue</span><small id="font-style">Bold</small></div>
+        <div class="two-fields"><label>Ukuran <span class="unit">px</span><input id="font-size" type="number" min="1" step="1"></label><label>Lebar <span class="unit">%</span><input id="text-width" type="number" min="1" max="100" step="any" value="84"></label></div>
+        <div class="two-fields"><label>Posisi X <span class="unit">%</span><input id="position-x" type="number" step="any" value="50"></label><label>Posisi Y <span class="unit">%</span><input id="position-y" type="number" step="any" value="15"></label></div>
+        <button id="center" class="text-button center-button">Pusatkan objek</button>
+        <label for="alignment">Perataan</label><select id="alignment"><option value="left">Kiri</option><option value="center" selected>Tengah</option><option value="right">Kanan</option></select>
+        <div class="color-fields"><label>Warna teks<input id="text-color" type="color" value="#000000"></label><label id="active-color-field" hidden>Kata aktif<input id="active-color" type="color" value="#ffff00"></label><label id="outline-color-field" hidden>Stroke<input id="outline-color" type="color" value="#101010"></label></div>
+        <label class="check-row"><span>Latar teks</span><input id="background-enabled" type="checkbox" checked></label>
+        <div class="color-fields"><label>Warna latar<input id="background-color" type="color" value="#ffffff"></label><label id="outline-size-field" hidden>Stroke <span class="unit">% ukuran</span><input id="outline-size" type="number" min="0" max="50" step="any" value="2.5"></label></div>
+        <label id="auto-size-field" class="check-row"><span>Otomatis agar hook muat</span><input id="auto-size" type="checkbox"></label>
+      </fieldset>
+      <p class="inspector-note">Geser frame teks atau gunakan posisi di atas. Perbarui preview untuk memeriksa frame; Render MP4 memeriksa versi terbaru otomatis.</p>
+      <div id="validation" class="validation" role="status" hidden></div>
+    </aside>
+  </main>
+
+  <section id="results" class="results" aria-label="Hasil render" hidden>
+    <div class="result-heading"><div><span class="result-check" aria-hidden="true">✓</span><h2>Video siap.</h2></div><label>Revisi <select id="revision-list" aria-label="Pilih revisi hasil"></select></label></div>
+    <div class="result-content"><video id="result-video" controls playsinline preload="metadata" aria-label="Video hasil render dengan subtitle tertanam"></video><div><h3>Hook dan subtitle sudah tertanam.</h3><p>MP4 untuk dibagikan. TXT dan SRT untuk digunakan kembali.</p><div class="download-actions"><a id="download-mp4" class="button primary" download>Unduh MP4</a><a id="download-txt" class="button" download>TXT</a><a id="download-srt" class="button" download>SRT</a></div></div></div>
+  </section>
+  <footer class="page-footer"><span>Videogen / Ruang edit lokal</span><span>Preview dan render memakai font serta gaya yang sama.</span></footer>
+</body>
+</html>

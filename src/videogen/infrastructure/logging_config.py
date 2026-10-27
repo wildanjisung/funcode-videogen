@@ -1,12 +1,11 @@
 import logging
-import os
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
+from videogen.infrastructure.paths import app_directory
 
 
 def default_log_path() -> Path:
-    state_home = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local" / "state"))
-    return state_home / "videogen" / "videogen.log"
+    return app_directory("state") / "videogen.log"
 
 
 def configure_logging(log_path: Path) -> None:

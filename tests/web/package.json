@@ -1,0 +1,8 @@
+{
+  "name": "videogen-web-ui-tests",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test --test-isolation=none ui.test.mjs" },
+  "devDependencies": { "jsdom": "28.1.0" },
+  "engines": { "node": ">=22.8" }
+}

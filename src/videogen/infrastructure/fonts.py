@@ -1,11 +1,11 @@
 import logging
-import os
 import struct
 from pathlib import Path
 
 from PySide6.QtGui import QFont, QFontDatabase, QFontMetricsF, QGuiApplication, QRawFont
 
 from videogen.application.ports import DependencyUnavailable, UserFacingError
+from videogen.infrastructure.paths import cached_asset
 
 logger = logging.getLogger(__name__)
 _application: QGuiApplication | None = None
@@ -13,10 +13,7 @@ _loaded_fonts: dict[tuple[str, int, int], int] = {}
 
 
 def default_font_path() -> Path:
-    return Path(os.environ.get(
-        "VIDEOGEN_FONT_PATH",
-        Path(__file__).parents[3] / ".cache" / "fonts" / "helvetica-neue" / "HelveticaNeueBold.otf",
-    )).expanduser().resolve()
+    return cached_asset("VIDEOGEN_FONT_PATH", "fonts/helvetica-neue/HelveticaNeueBold.otf")
 
 
 class SubtitleFont:

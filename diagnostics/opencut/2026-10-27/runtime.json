@@ -1,0 +1,112 @@
+{
+  "evaluated_on": "2026-10-27",
+  "upstream_commit": "e668010778568641babef2cc40be4703ae6916d6",
+  "platform": "Linux x86_64",
+  "tools": {
+    "node": "v24.16.0",
+    "bun": "1.3.6",
+    "upstream_bun_pin": "1.3.11",
+    "moon_used": false,
+    "proto_used": false
+  },
+  "resolved_dependencies": {
+    "vite": "8.3.5",
+    "react": "19.3.1",
+    "@tanstack/react-start": "1.169.4",
+    "@cloudflare/vite-plugin": "1.65.0",
+    "wrangler": "4.152.0"
+  },
+  "dependency_install": {
+    "status": "passed",
+    "command": "BUN_INSTALL_CACHE_DIR=/tmp/videogen-opencut-bun-cache bun install",
+    "cwd": "/tmp/videogen-opencut-eval-20261027/apps/web",
+    "exit_code": 0,
+    "packages": 656,
+    "reported_duration_seconds": 181.02,
+    "lockfile": "resolved-bun.lock",
+    "lockfile_sha256": "d23e6c8150ba43f8ad17ceca77f81e9bf94d1f326ef03e8f6403a6037f2f5962",
+    "note": "Upstream has no committed JS lockfile at this commit; resolved versions are specific to this evaluation. Existing Bun 1.3.6 was used rather than installing upstream-pinned Bun 1.3.11."
+  },
+  "build": {
+    "status": "passed",
+    "command": "XDG_CONFIG_HOME=/tmp/videogen-opencut-config XDG_CACHE_HOME=/tmp/videogen-opencut-cache WRANGLER_SEND_METRICS=false bun run build",
+    "cwd": "/tmp/videogen-opencut-eval-20261027/apps/web",
+    "exit_code": 0,
+    "evidence": "build.txt",
+    "warning": "vite:css-post SOURCEMAP_BROKEN; both client and SSR builds completed"
+  },
+  "dev_server": {
+    "status": "passed",
+    "command": "XDG_CONFIG_HOME=/tmp/videogen-opencut-config XDG_CACHE_HOME=/tmp/videogen-opencut-cache WRANGLER_SEND_METRICS=false bun run dev --host 127.0.0.1 --port 5188 --strictPort",
+    "cwd": "/tmp/videogen-opencut-eval-20261027/apps/web",
+    "url": "http://127.0.0.1:5188/editor",
+    "note": "Sandbox startup did not become reachable; same command outside sandbox reached Vite ready. No source workaround was applied. Evaluation server stopped after capture."
+  },
+  "http": {
+    "status": "passed",
+    "http_status": 200,
+    "h1": [
+      "Editor"
+    ],
+    "paragraphs": [
+      "Coming soon."
+    ],
+    "input_elements_in_ssr_html": 0,
+    "video_elements_in_ssr_html": 0,
+    "button_elements_in_ssr_html": 0,
+    "served_split_component_contains_coming_soon": true,
+    "evidence": [
+      "editor-http-headers.txt",
+      "editor-http.html",
+      "editor-module-headers.txt",
+      "editor-module.js",
+      "editor-component-headers.txt",
+      "editor-component.js"
+    ],
+    "limit": "SSR HTML and served JS verified; browser hydration and interaction were not tested."
+  },
+  "browser": {
+    "status": "unavailable",
+    "inventory": {
+      "apps": [],
+      "browsers": []
+    },
+    "tab_creation_error": "Browser is not available: iab",
+    "screenshots": [],
+    "interaction_tested": false
+  },
+  "functional_acceptance": {
+    "video_import": {
+      "status": "unavailable",
+      "reason": "No connected implementation in evaluated web route/source tree"
+    },
+    "text_editing": {
+      "status": "unavailable",
+      "reason": "No connected implementation in evaluated web route/source tree"
+    },
+    "word_timed_captions": {
+      "status": "unavailable",
+      "reason": "No connected implementation in evaluated web route/source tree"
+    },
+    "playback": {
+      "status": "unavailable",
+      "reason": "No connected implementation in evaluated web route/source tree"
+    },
+    "video_export": {
+      "status": "unavailable",
+      "reason": "No connected implementation in evaluated web route/source tree"
+    },
+    "transcription_integration": {
+      "status": "unavailable",
+      "reason": "No connected implementation in evaluated web route/source tree"
+    }
+  },
+  "upstream_local_changes": {
+    "manual_product_source_edits": false,
+    "generated_route_tree_diff": "generated-route-tree.diff",
+    "generated_lockfile": "resolved-bun.lock"
+  },
+  "macos_tested": false,
+  "windows_tested": false,
+  "videogen_product_code_changed": false
+}

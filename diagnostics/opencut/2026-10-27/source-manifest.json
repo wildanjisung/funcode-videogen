@@ -1,0 +1,83 @@
+{
+  "evaluated_on": "2026-10-27",
+  "repository": "https://github.com/OpenCut-app/OpenCut",
+  "commit": "e668010778568641babef2cc40be4703ae6916d6",
+  "checkout": "/tmp/videogen-opencut-eval-20261027",
+  "commit_metadata": "2026-09-24T10:58:46+02:00\nci(media): add the workflow that builds FFmpeg for every platform",
+  "tracked_routes": [
+    "apps/web/src/routes/__root.tsx",
+    "apps/web/src/routes/editor.tsx",
+    "apps/web/src/routes/index.tsx"
+  ],
+  "tracked_media_files": [
+    "crates/media/setup/ffmpeg.json",
+    "crates/media/setup/setup.ts"
+  ],
+  "source_snapshots": [
+    {
+      "path": "README.md",
+      "sha256": "95ccfeb63ebca77afdde080e2923b5f29b680db6b42a9be8b9098ea7ba25c050",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/README.md"
+    },
+    {
+      "path": "apps/web/src/routes/editor.tsx",
+      "sha256": "b4fbca97403580e04becbd85a2db984c67d9110856ae13d9a9eec2c4c93432d3",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/apps/web/src/routes/editor.tsx"
+    },
+    {
+      "path": "apps/web/src/routes/index.tsx",
+      "sha256": "bc6f3315dedbc34409d9ebcc487079e7c4f0ac521498cdaaa69ad10cac4c955d",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/apps/web/src/routes/index.tsx"
+    },
+    {
+      "path": "apps/web/package.json",
+      "sha256": "fa0267776e850317041686c04ab456d28d734cbdea13c5aa384342b1d324b56c",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/apps/web/package.json"
+    },
+    {
+      "path": "apps/web/vite.config.ts",
+      "sha256": "0c7e569207e7f1a6e7c18e56f55a4737964b11768725ced3a5b40451cfeb3b69",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/apps/web/vite.config.ts"
+    },
+    {
+      "path": "apps/api/src/index.ts",
+      "sha256": "1f2f2139b61f284bd6b779371f02fde1bc1008f0771ea424c91f8912a349daa8",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/apps/api/src/index.ts"
+    },
+    {
+      "path": "apps/desktop/README.md",
+      "sha256": "043012bfdcdb8bfa9d258b426b05e4be8487ce845117b4d32848241676e4d195",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/apps/desktop/README.md"
+    },
+    {
+      "path": "apps/desktop/src/panels/preview.rs",
+      "sha256": "de2ee347012199169151fb4f41aef6532906079a185b370c2bda640c0866ac77",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/apps/desktop/src/panels/preview.rs"
+    },
+    {
+      "path": "apps/desktop/src/panels/timeline.rs",
+      "sha256": "7ee068f60d62b84a6a40dc6516a1c0ee31d5ebdd38de15c551600405933f029b",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/apps/desktop/src/panels/timeline.rs"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "c33e17dcd91e28ae1f86cd00f34799f2528b5586c7f089b34c86d815259bc54c",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/Cargo.toml"
+    },
+    {
+      "path": "crates/media/setup/setup.ts",
+      "sha256": "3c1b8a68cb3300ba09e79503295c3ffbb7ba9d7e900a80b7ebff4ae2dc145f91",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/crates/media/setup/setup.ts"
+    },
+    {
+      "path": ".prototools",
+      "sha256": "ac9fcd60187f1336b542f82fe6aed1b03b2dc4149bdd493922d9034778755636",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/.prototools"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "05ab02fd3151198e3c0a698a3b7abfa6149c7bec26230f47c80c4dc5b6dc263f",
+      "url": "https://github.com/OpenCut-app/OpenCut/blob/e668010778568641babef2cc40be4703ae6916d6/LICENSE"
+    }
+  ]
+}

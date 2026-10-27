@@ -1,7 +1,29 @@
 # Videogen
 
-Desktop tool internal: transkripsi audio lokal, salin prompt/transkrip untuk hook, edit dan preview judul, lalu render MP4, TXT, dan SRT.
+Tool lokal dengan UI web dan desktop: transkripsi audio, edit hook/subtitle, preview, lalu render MP4, TXT, dan SRT.
 Bahasa ucapan dideteksi otomatis; sudah mencakup input Bahasa Indonesia dan Inggris.
+
+## UI web lokal
+
+UI web memakai worker Python yang sama dan tidak memerlukan Node.js, libopenshot, atau library overlay playback terpisah. Python 3.11–3.13, FFmpeg/ffprobe dengan libass/libx264, model lokal, serta font tetap diperlukan. Qt/PySide6 masih dipakai secara headless untuk pengukuran font.
+
+Jika setup model dan font pada checkout ini sudah tersedia:
+
+```bash
+.venv/bin/python -m pip install -e '.[web]'
+.venv/bin/videogen-web --data-dir output/web
+```
+
+Windows PowerShell:
+
+```powershell
+.venv\Scripts\python.exe -m pip install -e ".[web]"
+.venv\Scripts\videogen-web.exe --data-dir output\web
+```
+
+Buka **http://127.0.0.1:8765**. Pilih video, tunggu transkripsi, tulis hook atau matikan hook, atur gaya, lalu pilih **Perbarui preview** dan **Render MP4**. Hasil tersedia sebagai MP4, TXT, dan SRT; setiap render menjadi revisi baru.
+
+[Panduan lengkap Windows/macOS/Linux, alur penggunaan, lokasi data, dan batas verifikasi](WEB_UI.md).
 
 Subtitle sekarang memakai frasa pendek (maksimal empat kata dan target 2,5 detik per cue), Helvetica Neue tebal, teks putih dengan stroke gelap tipis, dan kata aktif kuning. Setelah kata selesai, warnanya kembali putih; saat jeda seluruh frasa putih. Pusat subtitle berada pada 74% tinggi frame. Timestamp kata mengikuti offset audio/video. Jika model hanya memberikan timing segmen, segmen ditampilkan putih tanpa highlight kata palsu.
 

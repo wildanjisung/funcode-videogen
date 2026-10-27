@@ -11,6 +11,7 @@ from videogen.application.projects import atomic_json, file_sha256
 from videogen.domain.hook import HookStyle
 from videogen.domain.subtitle_style import SubtitleStyle
 from videogen.infrastructure.fonts import SubtitleFont, default_font_path
+from videogen.infrastructure.paths import app_directory
 
 
 def font_reference(font: SubtitleFont) -> dict:
@@ -38,8 +39,7 @@ def resolve_style_font(style: HookStyle, fallback: SubtitleFont) -> SubtitleFont
 
 class HookPresets:
     def __init__(self) -> None:
-        root = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
-        self.path = root / "videogen" / "hook-presets.json"
+        self.path = app_directory("config") / "hook-presets.json"
         self.data = {"schema_version": 3, "default_id": None, "subtitle_default_id": None, "presets": []}
         if self.path.exists():
             try:
@@ -115,7 +115,7 @@ class HookPresets:
         if any(c in font.raw.familyName() for c in ',\n\r'):
             raise UserFacingError("Nama keluarga font tidak kompatibel dengan ASS.")
         digest = file_sha256(path)
-        cache = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache") / "videogen" / "fonts"
+        cache = app_directory("cache") / "fonts"
         cache.mkdir(parents=True, exist_ok=True)
         target = cache / (digest + path.suffix.lower())
         if not target.exists() or file_sha256(target) != digest:
